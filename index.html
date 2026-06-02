@@ -1,0 +1,3668 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>코딩 공부 가이드 🌸</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* ═══ GLOBAL RESET ═══ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; overflow:hidden; }
+body { font-family:'Noto Sans KR',sans-serif; background:#faf8ff; color:#3d3560; }
+
+/* ═══ TOP NAV ═══ */
+.top-nav {
+  position:fixed; top:0; left:0; right:0; height:54px;
+  background:#14112a; display:flex; align-items:center;
+  justify-content:space-between; padding:0 20px; z-index:9999;
+  border-bottom:2px solid #2d2845;
+}
+.nav-logo { color:#c4b5fd; font-weight:700; font-size:.95rem; }
+.nav-tabs { display:flex; gap:5px; }
+.nav-tab {
+  padding:8px 18px; border-radius:20px; border:1.5px solid #3d3460;
+  background:transparent; color:#a090c8;
+  font-family:'Noto Sans KR',sans-serif; font-size:.82rem;
+  cursor:pointer; white-space:nowrap; transition:all .2s;
+}
+.nav-tab:hover { border-color:#c4b5fd; color:#e8d5f5; }
+.nav-tab.active { background:#c4b5fd; border-color:#c4b5fd; color:#14112a; font-weight:700; }
+
+/* ═══ APP LAYOUT ═══ */
+.app {
+  position:fixed; top:54px; left:0; right:0; bottom:0;
+  overflow:hidden;
+}
+.section {
+  position:absolute; inset:0;
+  display:none !important;
+}
+.section.active {
+  display:flex !important;
+}
+
+/* ═══ GUIDE SECTION ═══ */
+#gs { flex-direction:row; overflow:hidden; }
+.guide-toc { position:relative; width:210px; min-width:210px; background:#1e1b35; height:100%; overflow-y:auto; padding:20px 0; flex-shrink:0; border-right:2px solid #2d2845; }
+.guide-toc-title { color:#c9a8e0; font-size:.72rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:0 16px 14px; border-bottom:1px solid #2d2845; margin-bottom:6px; }
+.guide-toc-part { padding:8px 16px 2px; font-size:.68rem; color:#6a5890; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-top:8px; }
+.guide-toc a { display:block; padding:6px 16px 6px 22px; color:#a090c8; text-decoration:none; font-size:.8rem; transition:all .18s; border-left:2px solid transparent; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.guide-toc a:hover { color:#e0d0ff; background:#2d2845; border-left-color:#c9a8e0; }
+.guide-main { flex:1; overflow-y:auto; padding:28px 40px; }
+.gi { width:100%; max-width:800px; margin:0 auto; }
+.gch { background:linear-gradient(135deg,#f5eeff,#eef0ff); border-radius:16px; padding:22px 26px; margin-bottom:18px; border-left:6px solid #c4b5fd; }
+.gch-n { font-size:.72rem; color:#c4b5fd; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:3px; }
+.gch h2 { font-size:1.25rem; color:#6b52a0; margin-bottom:5px; }
+.gch > p { color:#8a80a0; font-size:.87rem; }
+.gc { background:#fff; border:1.5px solid #ede5f5; border-radius:13px; padding:18px 20px; margin-bottom:13px; }
+.gc h3 { font-size:.95rem; font-weight:700; color:#7a5faf; margin-bottom:9px; padding-bottom:7px; border-bottom:1.5px dashed #ede5f5; }
+.gc p, .gc li { font-size:.86rem; line-height:1.8; color:#4a4a6a; }
+.gc ul { padding-left:18px; }
+.gc li { margin-bottom:4px; }
+.ghl { background:#f8f0ff; border-left:4px solid #c4b5fd; border-radius:0 9px 9px 0; padding:10px 14px; margin:9px 0; font-size:.84rem; color:#6a5580; line-height:1.7; }
+.gcode { background:#2d2a3e; color:#d8d0f0; border-radius:9px; padding:13px 16px; font-family:'JetBrains Mono',monospace; font-size:.78rem; line-height:1.8; margin:9px 0; white-space:pre-wrap; }
+.gcode .ct { color:#f5c8a8; } .gcode .ck { color:#f5a8d0; } .gcode .cs { color:#a8e6cf; } .gcode .cc { color:#6a5890; }
+.gg2 { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin:9px 0; }
+.gcell { border-radius:11px; padding:13px; text-align:center; }
+.gcell h4 { font-size:.88rem; margin-bottom:5px; }
+.gcell > p { font-size:.78rem; line-height:1.5; }
+.cpk { background:#fff0f5; } .cpk h4 { color:#c05070; } .cpk > p { color:#904060; }
+.cbl { background:#eef4ff; } .cbl h4 { color:#4060c0; } .cbl > p { color:#3050a0; }
+.gan { background:linear-gradient(135deg,#fff5fb,#f5f0ff); border:1.5px solid #e8d8f5; border-radius:11px; padding:13px 16px; margin:9px 0; }
+.gan .lbl { font-size:.7rem; font-weight:700; color:#c4b5fd; letter-spacing:1px; margin-bottom:4px; }
+.gan > p { color:#6a5580; font-size:.84rem; line-height:1.7; }
+.gfs { background:#f5eeff; border-radius:7px; padding:8px 14px; font-size:.84rem; color:#6a5590; margin-bottom:3px; }
+.gfs::after { content:"↓"; display:block; text-align:center; color:#c4b5fd; margin-top:2px; }
+.gfs:last-child::after { display:none; }
+.gtags { display:flex; gap:6px; flex-wrap:wrap; margin:7px 0; }
+.gtag { padding:3px 11px; border-radius:20px; font-size:.74rem; font-weight:600; }
+.tp { background:#ffe0ef; color:#c0607a; } .tpu { background:#f0e5ff; color:#8060b0; }
+.tg { background:#e0f5ea; color:#3a9060; } .tb { background:#e0eeff; color:#4060c0; } .ty { background:#fff5d0; color:#907020; }
+.gti { display:flex; gap:12px; margin-bottom:10px; align-items:flex-start; }
+.gdot { width:28px; height:28px; border-radius:50%; background:#c4b5fd; color:#14112a; font-weight:700; font-size:.8rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.gti h4 { color:#6b52a0; font-size:.87rem; margin-bottom:2px; }
+.gti > div > p { font-size:.79rem; color:#7a7090; }
+.gtg { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin:9px 0; }
+.gti2 { background:#faf8ff; border:1px solid #ede5f5; border-radius:9px; padding:10px 12px; }
+.gti2 .tn { font-weight:700; color:#7a5faf; font-size:.86rem; margin-bottom:1px; }
+.gti2 .te { font-size:.71rem; color:#c4b5fd; margin-bottom:2px; }
+.gti2 .td { font-size:.79rem; color:#5a5070; line-height:1.5; }
+.gdiv { border:none; border-top:1.5px dashed #ede5f5; margin:24px 0; }
+.gfin { text-align:center; padding:26px; background:linear-gradient(135deg,#f5eeff,#e8f5ff); border-radius:16px; margin:18px 0; }
+
+/* ═══ UI SECTION ═══ */
+#us { flex-direction:row; overflow:hidden; }
+
+  
+
+  
+
+  
+
+  /* 사이드바 목차 */
+  .toc {
+    width: 220px;
+    min-width: 220px;
+    background: #1e1b35;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    padding: 24px 0;
+    flex-shrink: 0;
+  }
+
+  .toc-title {
+    color: #c9a8e0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 0 18px 16px;
+    border-bottom: 1px solid #2d2845;
+    margin-bottom: 8px;
+  }
+
+  .toc-section {
+    padding: 6px 18px 2px;
+    font-size: 0.7rem;
+    color: #6a5890;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  .toc a {
+    display: block;
+    padding: 7px 18px 7px 24px;
+    color: #a090c8;
+    text-decoration: none;
+    font-size: 0.83rem;
+    transition: all 0.2s;
+    border-left: 2px solid transparent;
+  }
+
+  .toc a:hover {
+    color: #e0d0ff;
+    background: #2d2845;
+    border-left-color: #c9a8e0;
+  }
+
+  /* 메인 컨텐츠 */
+  .content {
+    flex: 1;
+    padding: 40px 48px;
+    max-width: 900px;
+    overflow-x: hidden;
+  }
+
+  /* 페이지 제목 */
+  .page-title {
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(135deg, #f5eeff, #eef4ff);
+    border-radius: 20px;
+    margin-bottom: 48px;
+    border: 1px solid var(--border);
+  }
+
+  .page-title h1 { font-size: 2rem; color: var(--purple); margin-bottom: 8px; }
+  .page-title p { color: var(--text-sub); font-size: 0.95rem; }
+
+  /* 챕터 제목 */
+  .chapter-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    scroll-margin-top: 20px;
+  }
+
+  .chapter-title h2 { font-size: 1.4rem; color: var(--purple); }
+
+  /* 용어 섹션 */
+  .term-section {
+    margin-bottom: 40px;
+    scroll-margin-top: 20px;
+  }
+
+  .term-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    scroll-margin-top: 20px;
+  }
+
+  .term-en {
+    font-size: 0.78rem;
+    background: #f0e8ff;
+    color: var(--purple);
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  .term-desc {
+    font-size: 0.9rem;
+    color: var(--text-sub);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .term-when {
+    font-size: 0.82rem;
+    color: #9a80c0;
+    background: #f8f4ff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+  }
+
+  /* 브라우저 미리보기 창 */
+  .browser {
+    border: 1.5px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 12px 0 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+
+  .browser-bar {
+    background: #f0f0f2;
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .b-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .b-r { background: #ff5f57; }
+  .b-y { background: #ffbd2e; }
+  .b-g { background: #28c840; }
+
+  .b-url {
+    background: white;
+    border-radius: 5px;
+    padding: 3px 12px;
+    font-size: 0.75rem;
+    color: #888;
+    margin-left: 4px;
+    flex: 1;
+  }
+
+  .browser-body { padding: 16px; }
+
+  /* 코드 스니펫 */
+  .code-block {
+    background: #1e1b35;
+    color: #d8d0f0;
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    margin: 10px 0 20px;
+    overflow-x: auto;
+  }
+
+  .c-tag { color: #f5c8a8; }
+  .c-attr { color: #a8d8f5; }
+  .c-val { color: #a8e6cf; }
+  .c-cmt { color: #6a5890; }
+
+  hr.divider {
+    border: none;
+    border-top: 1.5px dashed var(--border);
+    margin: 32px 0;
+  }
+
+  /* ============ UI 컴포넌트 실제 스타일 ============ */
+
+  /* 레이아웃 다이어그램 */
+  .layout-diagram {
+    border: 2px solid #c4b5fd;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 0.8rem;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .ld-header {
+    background: #c4b5fd;
+    color: white;
+    padding: 12px;
+  }
+
+  .ld-middle {
+    display: flex;
+    min-height: 120px;
+  }
+
+  .ld-sidebar {
+    background: #e9d5ff;
+    color: #6d28d9;
+    padding: 12px 8px;
+    width: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  .ld-main {
+    flex: 1;
+    background: #faf8ff;
+    padding: 16px;
+    color: #7c3aed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ld-footer {
+    background: #ede9fe;
+    color: #6d28d9;
+    padding: 10px;
+    font-size: 0.75rem;
+  }
+
+  /* 카드 */
+  .demo-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    display: inline-block;
+    min-width: 200px;
+    margin: 4px;
+  }
+
+  .demo-card h4 { color: #7c3aed; margin-bottom: 6px; font-size: 0.95rem; }
+  .demo-card p { color: #888; font-size: 0.82rem; line-height: 1.5; }
+
+  /* 탭 */
+  .demo-tabs { border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; }
+  .tab-buttons { display: flex; background: #f9fafb; border-bottom: 1px solid #e5e7eb; }
+  .tab-btn {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #888;
+    font-family: sans-serif;
+    transition: all 0.2s;
+  }
+  .tab-btn.active { background: white; color: #7c3aed; font-weight: 700; border-bottom: 2px solid #7c3aed; }
+  .tab-content { padding: 16px; font-size: 0.85rem; color: #555; }
+
+  /* 모달 */
+  .demo-modal-container {
+    position: relative;
+    height: 180px;
+    background: #f9fafb;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-box {
+    background: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    max-width: 220px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  }
+
+  .modal-box h4 { font-size: 0.9rem; color: #111; margin-bottom: 8px; }
+  .modal-box p { font-size: 0.78rem; color: #888; margin-bottom: 14px; }
+  .modal-buttons { display: flex; gap: 8px; justify-content: center; }
+  .modal-btn {
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    border: none;
+    cursor: pointer;
+    font-family: sans-serif;
+  }
+  .modal-btn-primary { background: #7c3aed; color: white; }
+  .modal-btn-secondary { background: #f3f4f6; color: #555; }
+
+  /* 드롭다운 */
+  .demo-dropdown { position: relative; display: inline-block; }
+  .dropdown-trigger {
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-family: sans-serif;
+  }
+  .dropdown-menu {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    margin-top: 4px;
+    overflow: hidden;
+    min-width: 160px;
+  }
+  .dropdown-item {
+    padding: 9px 16px;
+    font-size: 0.83rem;
+    color: #374151;
+    cursor: pointer;
+    display: block;
+    font-family: sans-serif;
+  }
+  .dropdown-item:hover { background: #f5f3ff; color: #7c3aed; }
+  .dropdown-item.selected { background: #f5f3ff; color: #7c3aed; font-weight: 600; }
+
+  /* 토스트 */
+  .demo-toast-area { position: relative; height: 100px; background: #f9fafb; border-radius: 8px; }
+  .toast {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: #1f2937;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 0.83rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+  .toast-icon { font-size: 1rem; }
+
+  /* 배지 */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ef4444;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-left: 4px;
+    vertical-align: top;
+  }
+
+  /* 토글 */
+  .toggle-switch {
+    width: 48px;
+    height: 26px;
+    border-radius: 13px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .toggle-on { background: #7c3aed; }
+  .toggle-off { background: #d1d5db; }
+
+  .toggle-knob {
+    position: absolute;
+    top: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: left 0.2s;
+  }
+
+  .toggle-on .toggle-knob { left: 25px; }
+  .toggle-off .toggle-knob { left: 3px; }
+
+  /* 아코디언 */
+  .accordion-item { border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 6px; overflow: hidden; }
+  .accordion-header {
+    padding: 12px 16px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+  }
+  .accordion-body {
+    padding: 12px 16px;
+    background: #f9fafb;
+    font-size: 0.83rem;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  /* 스피너 */
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e9d5ff;
+    border-top: 3px solid #7c3aed;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* 인풋 상태 */
+  .demo-input {
+    border: 1.5px solid #d1d5db;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 0.85rem;
+    font-family: sans-serif;
+    outline: none;
+    width: 200px;
+    display: block;
+    margin: 6px 0;
+  }
+  .demo-input.focused { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+  .demo-input.error { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+  .input-label { font-size: 0.78rem; font-weight: 600; color: #374151; margin-bottom: 4px; display: block; }
+  .input-error { font-size: 0.75rem; color: #ef4444; margin-top: 3px; }
+
+  /* 네비게이션 바 */
+  .demo-navbar {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+  }
+  .nav-logo { font-weight: 700; color: #7c3aed; font-size: 0.95rem; }
+  .nav-links { display: flex; gap: 20px; }
+  .nav-link { font-size: 0.82rem; color: #6b7280; text-decoration: none; }
+  .nav-link.active-link { color: #7c3aed; font-weight: 600; }
+
+  /* 브레드크럼 */
+  .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; }
+  .breadcrumb a { color: #7c3aed; text-decoration: none; }
+  .breadcrumb span { color: #9ca3af; }
+  .breadcrumb .current { color: #374151; font-weight: 600; }
+
+  /* 페이지네이션 */
+  .pagination { display: flex; gap: 4px; align-items: center; }
+  .page-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    cursor: pointer;
+    border: 1px solid #e5e7eb;
+    background: white;
+    color: #374151;
+    font-family: sans-serif;
+  }
+  .page-num.active-page { background: #7c3aed; color: white; border-color: #7c3aed; }
+
+  /* 진행바 */
+  .progress-bar-demo {
+    background: #e9d5ff;
+    border-radius: 100px;
+    height: 10px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, #7c3aed, #a855f7);
+  }
+
+  /* 체크박스 / 라디오 */
+  .form-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 0.85rem; color: #374151; }
+
+  /* 햄버거 */
+  .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .ham-line { width: 22px; height: 2.5px; background: #374151; border-radius: 2px; }
+
+  /* 버튼 그룹 */
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+  .demo-btn {
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.83rem;
+    font-family: sans-serif;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+  }
+  .btn-primary-demo { background: #7c3aed; color: white; }
+  .btn-secondary-demo { background: #f3f4f6; color: #374151; border: 1.5px solid #e5e7eb; }
+  .btn-outline-demo { background: transparent; color: #7c3aed; border: 1.5px solid #7c3aed; }
+  .btn-danger-demo { background: #ef4444; color: white; }
+  .btn-disabled-demo { background: #e5e7eb; color: #9ca3af; cursor: not-allowed; }
+  .btn-pill-demo { border-radius: 100px; }
+
+/* UI section overrides */
+#us .toc {
+  position:relative !important; height:100% !important;
+  overflow-y:auto; width:210px; min-width:210px;
+  flex-shrink:0;
+}
+#us main.content {
+  flex:1; overflow-y:auto; margin-top:0;
+}
+
+/* ═══ PRACTICE SECTION ═══ */
+#ps { flex-direction:column; overflow:hidden; }
+
+  
+
+  
+
+  /* 상단 레슨 탭 바 */
+  .lesson-bar {
+    background: #14112a;
+    padding: 12px 16px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    overflow-x: auto;
+    border-bottom: 2px solid #2d2845;
+    flex-shrink: 0;
+  }
+
+  .lesson-bar-title {
+    color: #c9a8e0;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    margin-right: 8px;
+    letter-spacing: 1px;
+  }
+
+  .lesson-btn {
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1.5px solid #3d3460;
+    background: transparent;
+    color: #a090c8;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .lesson-btn:hover { border-color: #c9a8e0; color: #e8d5f5; }
+
+  .lesson-btn.active {
+    background: #c9a8e0;
+    border-color: #c9a8e0;
+    color: #1a1729;
+    font-weight: 700;
+  }
+
+  /* 메인 영역 */
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* 왼쪽: 설명 + 에디터 */
+  .left-panel {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    border-right: 2px solid #2d2845;
+  }
+
+  /* 레슨 설명 */
+  .lesson-info {
+    background: #1e1b35;
+    padding: 16px 20px;
+    border-bottom: 1.5px solid #2d2845;
+    flex-shrink: 0;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  .lesson-step {
+    font-size: 0.72rem;
+    color: #c9a8e0;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .lesson-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #f0e8ff;
+    margin-bottom: 10px;
+  }
+
+  .lesson-concept {
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: #c0b0d8;
+    margin-bottom: 10px;
+  }
+
+  .lesson-concept code {
+    background: #2d2845;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #f5a8d0;
+    font-size: 0.85rem;
+  }
+
+  .task-box {
+    background: #252245;
+    border: 1.5px solid #4a3880;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.86rem;
+    color: #e0d0ff;
+    line-height: 1.7;
+  }
+
+  .task-box strong { color: #f5c8a8; }
+
+  /* 에디터 헤더 */
+  .editor-header {
+    background: #14112a;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #2d2845;
+    flex-shrink: 0;
+  }
+
+  .editor-label {
+    font-size: 0.78rem;
+    color: #8070a0;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .editor-buttons { display: flex; gap: 8px; }
+
+  .btn-hint, .btn-reset, .btn-answer {
+    padding: 5px 14px;
+    border-radius: 14px;
+    border: none;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+  }
+
+  .btn-hint { background: #3d3460; color: #c9a8e0; }
+  .btn-hint:hover { background: #504070; }
+  .btn-reset { background: #3d2d50; color: #e8a8c8; }
+  .btn-reset:hover { background: #503040; }
+  .btn-answer { background: #2d4030; color: #a8e0b8; }
+  .btn-answer:hover { background: #3a5040; }
+
+  /* 코드 에디터 */
+  .code-editor {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .line-numbers {
+    background: #14112a;
+    padding: 16px 12px 16px 14px;
+    text-align: right;
+    user-select: none;
+    color: #4a3d70;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    min-width: 42px;
+    overflow: hidden;
+  }
+
+  #codeEditor {
+    flex: 1;
+    background: #1e1b35;
+    color: #e8d5f5;
+    border: none;
+    outline: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    padding: 16px;
+    resize: none;
+    tab-size: 2;
+    white-space: pre;
+    overflow: auto;
+    caret-color: #c9a8e0;
+  }
+
+  /* 힌트 팝업 */
+  .hint-popup {
+    display: none;
+    background: #2d2845;
+    border: 1.5px solid #c9a8e0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 0 16px 10px;
+    font-size: 0.86rem;
+    color: #e0d0ff;
+    line-height: 1.7;
+    flex-shrink: 0;
+  }
+
+  .hint-popup.visible { display: block; }
+  .hint-popup strong { color: #f5c8a8; }
+  .hint-popup code {
+    background: #1a1729;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    color: #a8e6cf;
+  }
+
+  /* 오른쪽: 미리보기 */
+  .right-panel {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .preview-header {
+    background: #f0f0f2;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .browser-dots { display: flex; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #28c840; }
+
+  .preview-url {
+    background: white;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    color: #888;
+    flex: 1;
+  }
+
+  .preview-label {
+    font-size: 0.72rem;
+    color: #9a90b0;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 8px 14px;
+    background: #1e1b35;
+    border-bottom: 1px solid #2d2845;
+    flex-shrink: 0;
+  }
+
+  #preview {
+    flex: 1;
+    border: none;
+    background: white;
+  }
+
+  /* 하단 상태바 */
+  .status-bar {
+    background: #c9a8e0;
+    padding: 5px 16px;
+    font-size: 0.75rem;
+    color: #2d1a50;
+    font-weight: 600;
+    display: flex;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+
+/* Practice overrides */
+#ps .main { flex:1; min-height:0; overflow:hidden; display:flex; }
+#ps .left-panel { width:50%; min-height:0; display:flex; flex-direction:column; border-right:2px solid #2d2845; overflow:hidden; }
+#ps .right-panel { width:50%; display:flex; flex-direction:column; overflow:hidden; }
+#ps #preview { flex:1; border:none; background:#fff; }
+
+@keyframes spin { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="nav-logo">🌸 코딩 공부 가이드</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSec('g',this)">📖 학습 가이드</button>
+    <button class="nav-tab" onclick="showSec('u',this)">🎨 UI 용어</button>
+    <button class="nav-tab" onclick="showSec('p',this)">✏️ 코딩 실습</button>
+  </div>
+</nav>
+
+<div class="app">
+
+<!-- ══════════════ GUIDE SECTION ══════════════ -->
+<div id="gs" class="section active">
+
+<nav class="guide-toc">
+  <div class="guide-toc-title">📖 목차</div>
+  <div class="guide-toc-part">PART 1 · 웹 기초</div>
+  <a href="#ch1">1. 인터넷과 웹</a>
+  <a href="#ch2">2. HTML 완전 정복</a>
+  <a href="#ch3">3. CSS 완전 정복</a>
+  <div class="guide-toc-part">PART 2 · JavaScript</div>
+  <a href="#ch4">4. JS 변수와 타입</a>
+  <a href="#ch5">5. JS 조건 · 반복문</a>
+  <a href="#ch6">6. JS 함수와 배열</a>
+  <a href="#ch7">7. JS 객체</a>
+  <a href="#ch8">8. DOM 조작</a>
+  <div class="guide-toc-part">PART 3 · 비동기/API</div>
+  <a href="#ch9">9. 비동기 프로그래밍</a>
+  <a href="#ch10">10. HTTP & Fetch</a>
+  <a href="#ch11">11. JSON</a>
+  <a href="#ch12">12. AI API 연동</a>
+  <div class="guide-toc-part">PART 4 · 프레임워크</div>
+  <a href="#ch13">13. React 핵심</a>
+  <a href="#ch14">14. Next.js 입문</a>
+  <div class="guide-toc-part">PART 5 · 백엔드/도구</div>
+  <a href="#ch15">15. 데이터베이스</a>
+  <a href="#ch16">16. 인증과 보안</a>
+  <a href="#ch17">17. Git & GitHub</a>
+  <a href="#ch18">18. 개발 도구</a>
+  <a href="#ch19">19. 학습 로드맵</a>
+</nav>
+
+<div class="guide-main">
+<div class="gi">
+
+<!-- ═══ PART 1 ═══ -->
+<div style="background:linear-gradient(135deg,#2d1a50,#1a2850);border-radius:16px;padding:20px 24px;margin-bottom:24px;text-align:center">
+  <div style="color:#c4b5fd;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">PART 1</div>
+  <div style="color:#f0e8ff;font-size:1.3rem;font-weight:700">웹 개발 기초</div>
+  <div style="color:#9080c0;font-size:.85rem;margin-top:4px">인터넷이 어떻게 동작하는지, HTML·CSS로 화면을 어떻게 만드는지 배워요</div>
+</div>
+
+<div class="gch" id="ch1"><div class="gch-n">Chapter 1</div><h2>🌐 인터넷과 웹의 기본 개념</h2><p>코딩을 배우기 전에, 인터넷이 어떻게 돌아가는지부터 이해해요.</p></div>
+
+<div class="gc"><h3>🖥️ 클라이언트 vs 서버</h3>
+<div class="gan"><div class="lbl">☕ 카페 비유</div><p>손님(클라이언트)이 직원(서버)에게 "아메리카노 주세요"라고 요청하면, 직원이 커피를 만들어 건네줍니다.<br>→ 우리가 주소창에 주소를 입력하면(요청, Request), 서버가 페이지를 보내줍니다(응답, Response).</p></div>
+<div class="gg2"><div class="gcell cpk"><h4>👤 클라이언트 (Client)</h4><p>우리 컴퓨터·핸드폰<br>웹브라우저(Chrome, Edge)가 역할<br>요청을 보내는 쪽</p></div><div class="gcell cbl"><h4>🖥️ 서버 (Server)</h4><p>데이터를 저장하고 처리<br>항상 켜져 있는 컴퓨터<br>요청에 응답하는 쪽</p></div></div>
+<div class="ghl">브라우저가 하는 일: ① 사용자가 URL 입력 → ② 서버에 요청 → ③ HTML 파일 받음 → ④ 화면에 표시</div></div>
+
+<div class="gc"><h3>🔗 URL 완전 분석</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">URL(Uniform Resource Locator)은 인터넷 주소예요. 각 부분이 다 의미가 있어요.</p>
+<div class="gcode"><span class="ct">https</span>://<span class="cs">fieldtrip-hyehwa</span>.<span class="cs">vercel.app</span>/<span class="ck">teacher</span>/<span class="ck">scope</span>?<span class="ct">year</span>=<span class="cs">2026</span>
+   │           │                    │          │         │          │
+  프로토콜    서브도메인             도메인      경로1     경로2      쿼리파라미터</div>
+<div class="gtg" style="margin-top:10px">
+<div class="gti2"><div class="tn">https://</div><div class="td">프로토콜 — 암호화된 안전한 통신 방식 (http는 암호화 없음)</div></div>
+<div class="gti2"><div class="tn">.vercel.app</div><div class="td">도메인 — 서버를 찾는 주소 (전화번호 같은 것)</div></div>
+<div class="gti2"><div class="tn">/teacher/scope</div><div class="td">경로(Path) — 서버 안에서 어느 페이지인지</div></div>
+<div class="gti2"><div class="tn">?year=2026</div><div class="td">쿼리 파라미터 — 추가 데이터 전달 (검색어, 필터 등)</div></div>
+</div></div>
+
+<div class="gc"><h3>🏗️ 프론트엔드 vs 백엔드</h3>
+<div class="gg2"><div class="gcell cpk"><h4>🎨 프론트엔드 (Front-end)</h4><p>눈에 보이는 부분<br>버튼, 색상, 레이아웃<br><strong>HTML · CSS · JavaScript</strong><br><br>브라우저에서 실행됨</p></div><div class="gcell cbl"><h4>⚙️ 백엔드 (Back-end)</h4><p>눈에 안 보이는 부분<br>데이터 저장·조회, AI 호출<br><strong>Node.js · Python · DB</strong><br><br>서버에서 실행됨</p></div></div>
+<div class="ghl">내가 만든 세특 사이트: 버튼·입력폼은 프론트엔드 / AI 호출·DB 저장은 백엔드(Vercel 서버)</div></div>
+
+<div class="gc"><h3>📡 HTTP 요청의 종류</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:10px">브라우저와 서버가 대화할 때 쓰는 "동사"예요. 각각 다른 의미를 가져요.</p>
+<div class="gtg">
+<div class="gti2"><div class="tn">GET</div><div class="td">데이터 <strong>가져오기</strong>. 학생 목록 조회, 페이지 열기 (가장 흔함)</div></div>
+<div class="gti2"><div class="tn">POST</div><div class="td">데이터 <strong>보내기/생성</strong>. 회원가입, 세특 저장, AI 요청</div></div>
+<div class="gti2"><div class="tn">PUT/PATCH</div><div class="td">데이터 <strong>수정</strong>. 세특 내용 업데이트</div></div>
+<div class="gti2"><div class="tn">DELETE</div><div class="td">데이터 <strong>삭제</strong>. 학생 정보 삭제</div></div>
+</div>
+<div class="ghl">URL 주소창에서 Enter 치는 건 항상 GET 요청이에요. POST는 보통 폼 제출이나 버튼 클릭으로 발생해요.</div></div>
+
+<div class="gc"><h3>📊 HTTP 상태 코드</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:10px">서버가 응답할 때 숫자로 결과를 알려줘요. 내가 코딩할 때 console에서 자주 보여요.</p>
+<div class="gtg">
+<div class="gti2"><div class="tn" style="color:#3a9060">200 OK</div><div class="td">성공! 요청한 데이터를 잘 받았어요</div></div>
+<div class="gti2"><div class="tn" style="color:#3a9060">201 Created</div><div class="td">생성 성공! 새 데이터가 만들어졌어요</div></div>
+<div class="gti2"><div class="tn" style="color:#907020">400 Bad Request</div><div class="td">요청 형식이 잘못됨. 내가 보낸 데이터에 문제가 있어요</div></div>
+<div class="gti2"><div class="tn" style="color:#c05050">401 Unauthorized</div><div class="td">로그인이 필요해요. 인증되지 않은 접근</div></div>
+<div class="gti2"><div class="tn" style="color:#c05050">403 Forbidden</div><div class="td">권한 없음. 로그인은 됐지만 접근 불가</div></div>
+<div class="gti2"><div class="tn" style="color:#c05050">404 Not Found</div><div class="td">페이지/데이터가 없어요. 주소가 틀렸거나 삭제됨</div></div>
+<div class="gti2"><div class="tn" style="color:#c05050">500 Server Error</div><div class="td">서버에서 오류 발생. 내 코드(서버 측)에 버그가 있어요</div></div>
+</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch2"><div class="gch-n">Chapter 2</div><h2>🧱 HTML 완전 정복</h2><p>웹 페이지의 뼈대를 만드는 언어예요. 태그로 구조를 만들어요.</p></div>
+
+<div class="gc"><h3>📄 HTML 문서 기본 구조</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">모든 HTML 파일은 이 구조로 시작해요. 외울 필요 없이 이해만 하면 돼요.</p>
+<div class="gcode"><span class="cc">&lt;!-- 이 파일이 HTML 문서임을 선언 --&gt;</span>
+<span class="ct">&lt;!DOCTYPE html&gt;</span>
+<span class="ct">&lt;html</span> <span class="ck">lang</span>=<span class="cs">"ko"</span><span class="ct">&gt;</span>
+
+<span class="ct">&lt;head&gt;</span>  <span class="cc">&lt;!-- 보이지 않는 설정 영역 --&gt;</span>
+  <span class="ct">&lt;meta</span> <span class="ck">charset</span>=<span class="cs">"UTF-8"</span><span class="ct">&gt;</span>  <span class="cc">&lt;!-- 한글 깨짐 방지 --&gt;</span>
+  <span class="ct">&lt;meta</span> <span class="ck">name</span>=<span class="cs">"viewport"</span> <span class="ck">content</span>=<span class="cs">"width=device-width, initial-scale=1.0"</span><span class="ct">&gt;</span>
+  <span class="ct">&lt;title&gt;</span>페이지 제목<span class="ct">&lt;/title&gt;</span>
+  <span class="ct">&lt;link</span> <span class="ck">rel</span>=<span class="cs">"stylesheet"</span> <span class="ck">href</span>=<span class="cs">"style.css"</span><span class="ct">&gt;</span>
+<span class="ct">&lt;/head&gt;</span>
+
+<span class="ct">&lt;body&gt;</span>  <span class="cc">&lt;!-- 실제 화면에 표시되는 내용 --&gt;</span>
+  <span class="ct">&lt;h1&gt;</span>안녕하세요<span class="ct">&lt;/h1&gt;</span>
+<span class="ct">&lt;/body&gt;</span>
+<span class="ct">&lt;/html&gt;</span></div></div>
+
+<div class="gc"><h3>📝 텍스트 태그</h3>
+<div class="gtg">
+<div class="gti2"><div class="tn">&lt;h1&gt; ~ &lt;h6&gt;</div><div class="td">제목 (h1이 가장 크고 h6이 가장 작음). 한 페이지에 h1은 1개만!</div></div>
+<div class="gti2"><div class="tn">&lt;p&gt;</div><div class="td">문단(Paragraph). 일반 텍스트 내용. 위아래 여백 자동 생김</div></div>
+<div class="gti2"><div class="tn">&lt;strong&gt;</div><div class="td"><strong>굵은 글씨</strong>. 중요한 단어 강조할 때</div></div>
+<div class="gti2"><div class="tn">&lt;em&gt;</div><div class="td"><em>기울어진 글씨</em> (이탤릭체). 강조나 특별한 의미</div></div>
+<div class="gti2"><div class="tn">&lt;span&gt;</div><div class="td">인라인 컨테이너. 텍스트 일부에만 스타일 줄 때</div></div>
+<div class="gti2"><div class="tn">&lt;br&gt;</div><div class="td">줄바꿈 (닫는 태그 없음). Enter와 같은 효과</div></div>
+<div class="gti2"><div class="tn">&lt;hr&gt;</div><div class="td">수평 구분선. 내용 구분할 때</div></div>
+<div class="gti2"><div class="tn">&lt;code&gt;</div><div class="td"><code>코드 형식</code>으로 표시. 글씨체가 고정폭으로 바뀜</div></div>
+</div></div>
+
+<div class="gc"><h3>🏛️ 시맨틱(Semantic) 태그 — 의미 있는 구조</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:10px">예전엔 모든 걸 &lt;div&gt;로 했지만, 이제는 의미를 담은 태그를 써요. 검색엔진이 이해하기 쉽고, 코드가 더 읽기 좋아요.</p>
+<div class="gcode"><span class="ct">&lt;header&gt;</span>사이트 상단 헤더 (로고, 메뉴)<span class="ct">&lt;/header&gt;</span>
+<span class="ct">&lt;nav&gt;</span>네비게이션 메뉴<span class="ct">&lt;/nav&gt;</span>
+<span class="ct">&lt;main&gt;</span>
+  <span class="ct">&lt;section&gt;</span>주제별 구역 (학생 목록 섹션 등)<span class="ct">&lt;/section&gt;</span>
+  <span class="ct">&lt;article&gt;</span>독립적인 콘텐츠 (공지사항 하나)<span class="ct">&lt;/article&gt;</span>
+  <span class="ct">&lt;aside&gt;</span>사이드바, 관련 정보<span class="ct">&lt;/aside&gt;</span>
+<span class="ct">&lt;/main&gt;</span>
+<span class="ct">&lt;footer&gt;</span>하단 푸터 (저작권, 연락처)<span class="ct">&lt;/footer&gt;</span></div>
+<div class="ghl">div는 "그냥 상자"예요. 위의 태그들은 "이게 뭔지" 알려주는 상자예요. 내가 코딩할 때 이 태그들이 보이면 레이아웃 구조를 파악하는 데 쓰여요.</div></div>
+
+<div class="gc"><h3>🔗 링크와 이미지</h3>
+<div class="gcode"><span class="cc">&lt;!-- 링크: href에 이동할 주소 --&gt;</span>
+<span class="ct">&lt;a</span> <span class="ck">href</span>=<span class="cs">"https://naver.com"</span><span class="ct">&gt;</span>네이버로 이동<span class="ct">&lt;/a&gt;</span>
+<span class="ct">&lt;a</span> <span class="ck">href</span>=<span class="cs">"/teacher"</span><span class="ct">&gt;</span>교사 페이지 (같은 사이트 내)<span class="ct">&lt;/a&gt;</span>
+<span class="ct">&lt;a</span> <span class="ck">href</span>=<span class="cs">"#section1"</span><span class="ct">&gt;</span>같은 페이지 내 이동<span class="ct">&lt;/a&gt;</span>
+<span class="ct">&lt;a</span> <span class="ck">href</span>=<span class="cs">"..."</span> <span class="ck">target</span>=<span class="cs">"_blank"</span><span class="ct">&gt;</span>새 탭에서 열기<span class="ct">&lt;/a&gt;</span>
+
+<span class="cc">&lt;!-- 이미지: src에 이미지 주소, alt는 설명 텍스트 --&gt;</span>
+<span class="ct">&lt;img</span> <span class="ck">src</span>=<span class="cs">"/images/logo.png"</span> <span class="ck">alt</span>=<span class="cs">"학교 로고"</span> <span class="ck">width</span>=<span class="cs">"200"</span><span class="ct">&gt;</span></div></div>
+
+<div class="gc"><h3>📋 목록 태그</h3>
+<div class="gcode"><span class="cc">&lt;!-- 순서 없는 목록 (점 bullet) --&gt;</span>
+<span class="ct">&lt;ul&gt;</span>
+  <span class="ct">&lt;li&gt;</span>홍길동<span class="ct">&lt;/li&gt;</span>
+  <span class="ct">&lt;li&gt;</span>김영희<span class="ct">&lt;/li&gt;</span>
+<span class="ct">&lt;/ul&gt;</span>
+
+<span class="cc">&lt;!-- 순서 있는 목록 (1. 2. 3.) --&gt;</span>
+<span class="ct">&lt;ol&gt;</span>
+  <span class="ct">&lt;li&gt;</span>HTML 배우기<span class="ct">&lt;/li&gt;</span>
+  <span class="ct">&lt;li&gt;</span>CSS 배우기<span class="ct">&lt;/li&gt;</span>
+<span class="ct">&lt;/ol&gt;</span></div></div>
+
+<div class="gc"><h3>📊 테이블 태그</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">표를 만들 때 써요. 내가 성적표나 학생 목록 만들 때 자주 쓰는 구조예요.</p>
+<div class="gcode"><span class="ct">&lt;table&gt;</span>
+  <span class="ct">&lt;thead&gt;</span>  <span class="cc">&lt;!-- 표 헤더 영역 --&gt;</span>
+    <span class="ct">&lt;tr&gt;</span>  <span class="cc">&lt;!-- tr = 행(row) --&gt;</span>
+      <span class="ct">&lt;th&gt;</span>이름<span class="ct">&lt;/th&gt;</span>  <span class="cc">&lt;!-- th = 헤더 셀 (굵게 표시됨) --&gt;</span>
+      <span class="ct">&lt;th&gt;</span>학번<span class="ct">&lt;/th&gt;</span>
+    <span class="ct">&lt;/tr&gt;</span>
+  <span class="ct">&lt;/thead&gt;</span>
+  <span class="ct">&lt;tbody&gt;</span>  <span class="cc">&lt;!-- 표 내용 영역 --&gt;</span>
+    <span class="ct">&lt;tr&gt;</span>
+      <span class="ct">&lt;td&gt;</span>홍길동<span class="ct">&lt;/td&gt;</span>  <span class="cc">&lt;!-- td = 일반 셀 --&gt;</span>
+      <span class="ct">&lt;td&gt;</span>10101<span class="ct">&lt;/td&gt;</span>
+    <span class="ct">&lt;/tr&gt;</span>
+  <span class="ct">&lt;/tbody&gt;</span>
+<span class="ct">&lt;/table&gt;</span></div></div>
+
+<div class="gc"><h3>📝 폼(Form) 태그 — 데이터 입력</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">사용자에게 입력을 받을 때 써요. 로그인, 검색, 설문조사 등 모두 폼이에요.</p>
+<div class="gcode"><span class="ct">&lt;form</span> <span class="ck">action</span>=<span class="cs">"/submit"</span> <span class="ck">method</span>=<span class="cs">"POST"</span><span class="ct">&gt;</span>
+
+  <span class="cc">&lt;!-- 텍스트 입력 --&gt;</span>
+  <span class="ct">&lt;label</span> <span class="ck">for</span>=<span class="cs">"name"</span><span class="ct">&gt;</span>이름<span class="ct">&lt;/label&gt;</span>
+  <span class="ct">&lt;input</span> <span class="ck">type</span>=<span class="cs">"text"</span> <span class="ck">id</span>=<span class="cs">"name"</span> <span class="ck">placeholder</span>=<span class="cs">"이름 입력"</span><span class="ct">&gt;</span>
+
+  <span class="cc">&lt;!-- 비밀번호 --&gt;</span>
+  <span class="ct">&lt;input</span> <span class="ck">type</span>=<span class="cs">"password"</span> <span class="ck">placeholder</span>=<span class="cs">"비밀번호"</span><span class="ct">&gt;</span>
+
+  <span class="cc">&lt;!-- 숫자 --&gt;</span>
+  <span class="ct">&lt;input</span> <span class="ck">type</span>=<span class="cs">"number"</span> <span class="ck">min</span>=<span class="cs">"1"</span> <span class="ck">max</span>=<span class="cs">"100"</span><span class="ct">&gt;</span>
+
+  <span class="cc">&lt;!-- 여러 줄 텍스트 --&gt;</span>
+  <span class="ct">&lt;textarea</span> <span class="ck">rows</span>=<span class="cs">"5"</span> <span class="ck">placeholder</span>=<span class="cs">"세특 내용..."</span><span class="ct">&gt;&lt;/textarea&gt;</span>
+
+  <span class="cc">&lt;!-- 선택 드롭다운 --&gt;</span>
+  <span class="ct">&lt;select&gt;</span>
+    <span class="ct">&lt;option</span> <span class="ck">value</span>=<span class="cs">"1"</span><span class="ct">&gt;</span>1학년<span class="ct">&lt;/option&gt;</span>
+    <span class="ct">&lt;option</span> <span class="ck">value</span>=<span class="cs">"2"</span><span class="ct">&gt;</span>2학년<span class="ct">&lt;/option&gt;</span>
+  <span class="ct">&lt;/select&gt;</span>
+
+  <span class="cc">&lt;!-- 제출 버튼 --&gt;</span>
+  <span class="ct">&lt;button</span> <span class="ck">type</span>=<span class="cs">"submit"</span><span class="ct">&gt;</span>제출<span class="ct">&lt;/button&gt;</span>
+<span class="ct">&lt;/form&gt;</span></div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch3"><div class="gch-n">Chapter 3</div><h2>🎨 CSS 완전 정복</h2><p>화면을 예쁘게 꾸미는 언어예요. 선택자·박스모델·레이아웃 순서로 익혀요.</p></div>
+
+<div class="gc"><h3>🎯 CSS 셀렉터 (어느 요소에 스타일을 줄까?)</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">CSS에서 가장 중요한 개념이에요. "어떤 태그/클래스를 선택하느냐"가 핵심이에요.</p>
+<div class="gcode"><span class="cc">/* 태그 셀렉터 — h1 태그 전부 */</span>
+h1 { color: purple; }
+
+<span class="cc">/* 클래스 셀렉터 — class="card" 인 요소들 */</span>
+.card { background: white; border-radius: 12px; }
+
+<span class="cc">/* ID 셀렉터 — id="title" 인 딱 하나 */</span>
+#title { font-size: 2rem; }
+
+<span class="cc">/* 자손 셀렉터 — .container 안에 있는 p 태그 */</span>
+.container p { color: gray; }
+
+<span class="cc">/* 가상 클래스 — 마우스 올렸을 때 */</span>
+button:hover { background: #9370db; }
+
+<span class="cc">/* 가상 클래스 — 첫 번째 자식 */</span>
+li:first-child { font-weight: bold; }</div></div>
+
+<div class="gc"><h3>📦 박스 모델 (Box Model) — CSS의 핵심 중 핵심</h3>
+<div class="gan"><div class="lbl">🎁 택배 상자 비유</div><p>내용물(content) → 뽁뽁이(padding) → 상자 벽(border) → 상자들 사이 간격(margin)<br>모든 HTML 요소는 이 4겹 구조예요.</p></div>
+<div class="gcode"><span class="cc">/* 박스 모델의 4가지 영역 */</span>
+.box {
+  width: <span class="cs">200px</span>;        <span class="cc">/* 내용 너비 */</span>
+  height: <span class="cs">100px</span>;       <span class="cc">/* 내용 높이 */</span>
+
+  padding: <span class="cs">16px</span>;       <span class="cc">/* 안쪽 여백 (내용↔테두리 사이) */</span>
+  padding: <span class="cs">10px 20px</span>;   <span class="cc">/* 위아래 10px, 좌우 20px */</span>
+
+  border: <span class="cs">2px solid #ccc</span>;  <span class="cc">/* 테두리 (두께 스타일 색) */</span>
+  border-radius: <span class="cs">12px</span>;  <span class="cc">/* 모서리 둥글게 */</span>
+
+  margin: <span class="cs">20px</span>;        <span class="cc">/* 바깥쪽 여백 (다른 요소와의 간격) */</span>
+  margin: <span class="cs">0 auto</span>;      <span class="cc">/* 가운데 정렬 (좌우 auto) */</span>
+
+  box-sizing: <span class="cs">border-box</span>; <span class="cc">/* padding/border를 width에 포함 (권장) */</span>
+}</div></div>
+
+<div class="gc"><h3>📐 Display 속성 — 요소가 어떻게 배치될까?</h3>
+<div class="gtg">
+<div class="gti2"><div class="tn">block</div><div class="td">한 줄 전체를 차지. 다음 요소는 아랫줄로. div, p, h1이 기본값</div></div>
+<div class="gti2"><div class="tn">inline</div><div class="td">내용 크기만큼만 차지. 옆으로 나란히 배치. span, a가 기본값. width/height 설정 안 됨</div></div>
+<div class="gti2"><div class="tn">inline-block</div><div class="td">옆으로 나란히 + width/height 설정 가능. 버튼처럼</div></div>
+<div class="gti2"><div class="tn">flex</div><div class="td">자식들을 가로/세로로 유연하게 배치. 현대 레이아웃의 핵심!</div></div>
+<div class="gti2"><div class="tn">grid</div><div class="td">격자(바둑판) 형태로 배치. 복잡한 레이아웃에 강력</div></div>
+<div class="gti2"><div class="tn">none</div><div class="td">완전히 숨김. 공간도 차지 안 함. 탭 전환 등에 사용</div></div>
+</div></div>
+
+<div class="gc"><h3>🔧 Flexbox — 현대 레이아웃의 핵심</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">내가 만드는 모든 레이아웃의 70%는 Flexbox예요. 이것만 잘 이해해도 레이아웃은 OK!</p>
+<div class="gcode"><span class="cc">/* 부모 컨테이너에 flex 설정 */</span>
+.container {
+  display: <span class="cs">flex</span>;
+
+  <span class="cc">/* 방향 */</span>
+  flex-direction: <span class="cs">row</span>;     <span class="cc">/* 가로 (기본값) */</span>
+  flex-direction: <span class="cs">column</span>;  <span class="cc">/* 세로 */</span>
+
+  <span class="cc">/* 주축 정렬 (가로방향일 때 좌우) */</span>
+  justify-content: <span class="cs">flex-start</span>;   <span class="cc">/* 왼쪽 정렬 */</span>
+  justify-content: <span class="cs">center</span>;       <span class="cc">/* 가운데 */</span>
+  justify-content: <span class="cs">flex-end</span>;     <span class="cc">/* 오른쪽 */</span>
+  justify-content: <span class="cs">space-between</span>;<span class="cc">/* 양 끝에 배치, 사이 간격 균등 */</span>
+
+  <span class="cc">/* 교차축 정렬 (가로방향일 때 위아래) */</span>
+  align-items: <span class="cs">center</span>;   <span class="cc">/* 세로 가운데 정렬 */</span>
+  align-items: <span class="cs">stretch</span>;  <span class="cc">/* 높이 맞춤 (기본값) */</span>
+
+  gap: <span class="cs">16px</span>;  <span class="cc">/* 자식들 사이 간격 */</span>
+}
+
+<span class="cc">/* 자식 요소 */</span>
+.item {
+  flex: <span class="cs">1</span>;  <span class="cc">/* 남은 공간 균등 분배 */</span>
+  flex: <span class="cs">0 0 200px</span>;  <span class="cc">/* 200px 고정 */</span>
+}</div></div>
+
+<div class="gc"><h3>📍 Position 속성</h3>
+<div class="gtg">
+<div class="gti2"><div class="tn">static</div><div class="td">기본값. 일반 흐름대로 배치</div></div>
+<div class="gti2"><div class="tn">relative</div><div class="td">자기 원래 위치 기준으로 이동. top/left로 조절</div></div>
+<div class="gti2"><div class="tn">absolute</div><div class="td">부모 기준으로 위치 고정. 일반 흐름에서 빠져나옴</div></div>
+<div class="gti2"><div class="tn">fixed</div><div class="td">브라우저 화면 기준 고정. 스크롤해도 그 자리에 (상단 nav 등)</div></div>
+<div class="gti2"><div class="tn">sticky</div><div class="td">스크롤하다가 특정 지점에서 fixed처럼 고정됨</div></div>
+</div>
+<div class="gcode"><span class="cc">/* 예시: 오른쪽 상단에 고정된 배지 */</span>
+.parent { position: <span class="cs">relative</span>; }
+.badge {
+  position: <span class="cs">absolute</span>;
+  top: <span class="cs">8px</span>;
+  right: <span class="cs">8px</span>;
+}</div></div>
+
+<div class="gc"><h3>📱 반응형 디자인 (Media Query)</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">화면 크기에 따라 다른 스타일을 적용해요. 핸드폰에서도 잘 보이게 하는 핵심이에요.</p>
+<div class="gcode"><span class="cc">/* 기본: 모바일 우선 설계 */</span>
+.card { width: <span class="cs">100%</span>; }
+
+<span class="cc">/* 화면이 768px 이상일 때 (태블릿/PC) */</span>
+@media (min-width: <span class="cs">768px</span>) {
+  .card { width: <span class="cs">48%</span>; }
+}
+
+<span class="cc">/* 화면이 1024px 이상일 때 (PC) */</span>
+@media (min-width: <span class="cs">1024px</span>) {
+  .card { width: <span class="cs">31%</span>; }
+}</div></div>
+
+<div class="gc"><h3>🎨 자주 쓰는 CSS 속성 모음</h3>
+<div class="gcode"><span class="cc">/* 색상 */</span>
+color: <span class="cs">#333</span>;                   <span class="cc">/* 글자색 (16진수) */</span>
+color: <span class="cs">rgba(0, 0, 0, 0.5)</span>;    <span class="cc">/* 반투명 검정 */</span>
+background-color: <span class="cs">#f5f0ff</span>;     <span class="cc">/* 배경색 */</span>
+background: <span class="cs">linear-gradient(135deg, #f5eeff, #e8f5ff)</span>; <span class="cc">/* 그라데이션 */</span>
+
+<span class="cc">/* 글자 */</span>
+font-size: <span class="cs">16px</span>;        <span class="cc">/* 크기 */</span>
+font-weight: <span class="cs">700</span>;       <span class="cc">/* 굵기 (400=보통, 700=굵게) */</span>
+font-family: <span class="cs">'Noto Sans KR', sans-serif</span>;
+line-height: <span class="cs">1.6</span>;       <span class="cc">/* 줄 간격 */</span>
+letter-spacing: <span class="cs">1px</span>;    <span class="cc">/* 자간 */</span>
+text-align: <span class="cs">center</span>;     <span class="cc">/* 정렬 */</span>
+
+<span class="cc">/* 그림자 */</span>
+box-shadow: <span class="cs">0 4px 16px rgba(0,0,0,0.1)</span>; <span class="cc">/* 카드 그림자 */</span>
+text-shadow: <span class="cs">1px 1px 4px rgba(0,0,0,0.3)</span>;
+
+<span class="cc">/* 기타 */</span>
+cursor: <span class="cs">pointer</span>;       <span class="cc">/* 마우스 손가락 모양 */</span>
+overflow: <span class="cs">hidden</span>;      <span class="cc">/* 넘치는 내용 숨김 */</span>
+transition: <span class="cs">all 0.2s</span>;  <span class="cc">/* 변화 애니메이션 0.2초 */</span>
+opacity: <span class="cs">0.5</span>;           <span class="cc">/* 투명도 (0=투명, 1=불투명) */</span>
+z-index: <span class="cs">999</span>;          <span class="cc">/* 겹쳤을 때 위에 올 요소 (숫자 클수록 앞) */</span></div></div>
+
+<div class="gc"><h3>🔄 CSS 변수 (Custom Properties)</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">자주 쓰는 색상이나 크기를 변수로 만들어 관리해요. 내가 코딩할 때 거의 항상 쓰는 패턴이에요.</p>
+<div class="gcode"><span class="cc">/* :root에 변수 정의 (전역 사용 가능) */</span>
+:root {
+  --color-primary: <span class="cs">#9370db</span>;
+  --color-pink: <span class="cs">#ff69b4</span>;
+  --border-radius: <span class="cs">12px</span>;
+  --shadow: <span class="cs">0 4px 16px rgba(0,0,0,0.1)</span>;
+}
+
+<span class="cc">/* 사용할 때 */</span>
+.button {
+  background: <span class="cs">var(--color-primary)</span>;
+  border-radius: <span class="cs">var(--border-radius)</span>;
+  box-shadow: <span class="cs">var(--shadow)</span>;
+}</div></div>
+
+<div class="gdiv"></div>
+<!-- ═══ PART 2 ═══ -->
+<div style="background:linear-gradient(135deg,#1a2d20,#1a1a50);border-radius:16px;padding:20px 24px;margin-bottom:24px;text-align:center">
+  <div style="color:#a8e6cf;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">PART 2</div>
+  <div style="color:#e8fff0;font-size:1.3rem;font-weight:700">JavaScript</div>
+  <div style="color:#80b090;font-size:.85rem;margin-top:4px">변수, 함수, 조건문, 반복문부터 DOM 조작까지 — 웹을 살아 움직이게 하는 언어</div>
+</div>
+
+<div class="gch" id="ch4"><div class="gch-n">Chapter 4</div><h2>📦 JavaScript — 변수와 데이터 타입</h2><p>프로그래밍의 가장 기초. 데이터를 담는 그릇(변수)과 데이터의 종류(타입)부터 시작해요.</p></div>
+
+<div class="gc"><h3>🗃️ 변수 선언 — var / let / const</h3>
+<div class="gan"><div class="lbl">📦 상자 비유</div><p>변수는 데이터를 넣어두는 상자예요. 상자 이름을 지어주고, 안에 값을 넣는 거예요.<br>const = 잠금 상자 (바꾸면 안 됨) | let = 일반 상자 (바꿀 수 있음)</p></div>
+<div class="gcode"><span class="cc">// const — 바꾸지 않을 값 (권장 기본값)</span>
+<span class="ck">const</span> schoolName = <span class="cs">"혜화여자고등학교"</span>;
+<span class="ck">const</span> studentCount = <span class="cs">30</span>;
+
+<span class="cc">// let — 바뀔 수 있는 값</span>
+<span class="ck">let</span> score = <span class="cs">85</span>;
+score = <span class="cs">90</span>;  <span class="cc">// 나중에 변경 가능</span>
+
+<span class="cc">// var — 옛날 방식. 지금은 잘 안 씀 (버그 생기기 쉬움)</span>
+<span class="ck">var</span> oldStyle = <span class="cs">"사용 비권장"</span>;</div>
+<div class="ghl">const를 기본으로 쓰고, 값이 바뀌어야 할 때만 let을 써요. var는 이제 안 써요!</div></div>
+
+<div class="gc"><h3>🔢 데이터 타입 7가지</h3>
+<div class="gcode"><span class="cc">// 1. String (문자열) — 따옴표로 감쌈</span>
+<span class="ck">const</span> name = <span class="cs">"홍길동"</span>;
+<span class="ck">const</span> greeting = <span class="cs">`안녕하세요, ${name}님!`</span>; <span class="cc">// 템플릿 리터럴</span>
+
+<span class="cc">// 2. Number (숫자) — 정수/소수 구분 없음</span>
+<span class="ck">const</span> age = <span class="cs">17</span>;
+<span class="ck">const</span> pi = <span class="cs">3.14</span>;
+
+<span class="cc">// 3. Boolean (참/거짓)</span>
+<span class="ck">const</span> isLoggedIn = <span class="cs">true</span>;
+<span class="ck">const</span> hasSubmitted = <span class="cs">false</span>;
+
+<span class="cc">// 4. null — 의도적으로 비어있음 ("아무것도 없음")</span>
+<span class="ck">const</span> result = <span class="cs">null</span>;
+
+<span class="cc">// 5. undefined — 선언했지만 값이 없음</span>
+<span class="ck">let</span> notYet;  <span class="cc">// → undefined</span>
+
+<span class="cc">// 6. Array (배열) — 여러 값을 순서대로</span>
+<span class="ck">const</span> students = [<span class="cs">"홍길동"</span>, <span class="cs">"김영희"</span>, <span class="cs">"이철수"</span>];
+students[<span class="cs">0</span>];  <span class="cc">// "홍길동" (인덱스는 0부터)</span>
+students.length;  <span class="cc">// 3</span>
+
+<span class="cc">// 7. Object (객체) — 키:값 쌍으로 묶음</span>
+<span class="ck">const</span> student = {
+  name: <span class="cs">"홍길동"</span>,
+  grade: <span class="cs">1</span>,
+  isActive: <span class="cs">true</span>
+};
+student.name;  <span class="cc">// "홍길동"</span>
+student[<span class="cs">"grade"</span>];  <span class="cc">// 1 (이렇게도 가능)</span></div></div>
+
+<div class="gc"><h3>🔤 템플릿 리터럴 — 문자열 조합의 핵심</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">내가 코딩할 때 거의 항상 쓰는 패턴이에요. 백틱(`)을 쓰고 ${변수}로 값을 넣어요.</p>
+<div class="gcode"><span class="ck">const</span> studentName = <span class="cs">"홍길동"</span>;
+<span class="ck">const</span> grade = <span class="cs">1</span>;
+<span class="ck">const</span> score = <span class="cs">85</span>;
+
+<span class="cc">// 예전 방식 (불편)</span>
+<span class="ck">const</span> msg1 = <span class="cs">"안녕, "</span> + studentName + <span class="cs">"! 1학년 점수: "</span> + score;
+
+<span class="cc">// 템플릿 리터럴 (권장)</span>
+<span class="ck">const</span> msg2 = <span class="cs">`안녕, ${studentName}! ${grade}학년 점수: ${score}점`</span>;
+
+<span class="cc">// 여러 줄도 가능</span>
+<span class="ck">const</span> html = <span class="cs">`
+  &lt;div class="card"&gt;
+    &lt;h3&gt;${studentName}&lt;/h3&gt;
+    &lt;p&gt;점수: ${score}&lt;/p&gt;
+  &lt;/div&gt;
+`</span>;</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch5"><div class="gch-n">Chapter 5</div><h2>🔀 JavaScript — 조건문과 반복문</h2><p>프로그램이 스스로 판단하고 반복 작업을 처리하는 방법이에요.</p></div>
+
+<div class="gc"><h3>🚦 조건문 (if / else)</h3>
+<div class="gcode"><span class="ck">const</span> score = <span class="cs">85</span>;
+
+<span class="cc">// 기본 if/else</span>
+<span class="ck">if</span> (score &gt;= <span class="cs">90</span>) {
+  console.log(<span class="cs">"A등급"</span>);
+} <span class="ck">else if</span> (score &gt;= <span class="cs">80</span>) {
+  console.log(<span class="cs">"B등급"</span>);
+} <span class="ck">else</span> {
+  console.log(<span class="cs">"C등급 이하"</span>);
+}
+
+<span class="cc">// 삼항 연산자 (짧게 쓸 때)</span>
+<span class="ck">const</span> result = score &gt;= <span class="cs">60</span> ? <span class="cs">"합격"</span> : <span class="cs">"불합격"</span>;
+
+<span class="cc">// 논리 연산자</span>
+<span class="ck">if</span> (score &gt; <span class="cs">70</span> &amp;&amp; isLoggedIn) { }  <span class="cc">// AND (둘 다 참)</span>
+<span class="ck">if</span> (isAdmin || isTeacher) { }     <span class="cc">// OR (하나라도 참)</span>
+<span class="ck">if</span> (!isLoggedIn) { }             <span class="cc">// NOT (반대)</span></div></div>
+
+<div class="gc"><h3>🔄 반복문</h3>
+<div class="gcode"><span class="ck">const</span> students = [<span class="cs">"홍길동"</span>, <span class="cs">"김영희"</span>, <span class="cs">"이철수"</span>];
+
+<span class="cc">// for 루프 — 횟수가 정해진 반복</span>
+<span class="ck">for</span> (<span class="ck">let</span> i = <span class="cs">0</span>; i &lt; students.length; i++) {
+  console.log(students[i]);
+}
+
+<span class="cc">// for...of — 배열 순회 (더 읽기 좋음)</span>
+<span class="ck">for</span> (<span class="ck">const</span> student <span class="ck">of</span> students) {
+  console.log(student);
+}
+
+<span class="cc">// forEach — 배열 전용, 함수 형태</span>
+students.forEach(student =&gt; {
+  console.log(student);
+});
+
+<span class="cc">// while — 조건이 참인 동안 반복</span>
+<span class="ck">let</span> count = <span class="cs">0</span>;
+<span class="ck">while</span> (count &lt; <span class="cs">5</span>) {
+  count++;
+}</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch6"><div class="gch-n">Chapter 6</div><h2>⚙️ JavaScript — 함수와 배열 메서드</h2><p>코드를 재사용 가능하게 묶는 함수, 그리고 배열을 다루는 강력한 메서드들이에요.</p></div>
+
+<div class="gc"><h3>📝 함수 선언 방법 3가지</h3>
+<div class="gcode"><span class="cc">// 1. 함수 선언식 (hoisting 됨 — 위에서도 호출 가능)</span>
+<span class="ck">function</span> greet(name) {
+  <span class="ck">return</span> <span class="cs">`안녕, ${name}!`</span>;
+}
+
+<span class="cc">// 2. 함수 표현식 (변수에 저장)</span>
+<span class="ck">const</span> greet2 = <span class="ck">function</span>(name) {
+  <span class="ck">return</span> <span class="cs">`안녕, ${name}!`</span>;
+};
+
+<span class="cc">// 3. 화살표 함수 (Arrow Function) — 현대 방식, 가장 많이 씀</span>
+<span class="ck">const</span> greet3 = (name) =&gt; <span class="cs">`안녕, ${name}!`</span>;
+
+<span class="cc">// 매개변수 여러 개</span>
+<span class="ck">const</span> add = (a, b) =&gt; a + b;
+
+<span class="cc">// 여러 줄일 때 { } 와 return 필요</span>
+<span class="ck">const</span> calcGrade = (score) =&gt; {
+  <span class="ck">if</span> (score &gt;= <span class="cs">90</span>) <span class="ck">return</span> <span class="cs">"A"</span>;
+  <span class="ck">if</span> (score &gt;= <span class="cs">80</span>) <span class="ck">return</span> <span class="cs">"B"</span>;
+  <span class="ck">return</span> <span class="cs">"C"</span>;
+};</div></div>
+
+<div class="gc"><h3>🔧 배열 메서드 — 내가 코딩할 때 매일 쓰는 것들</h3>
+<div class="gcode"><span class="ck">const</span> scores = [<span class="cs">85</span>, <span class="cs">92</span>, <span class="cs">78</span>, <span class="cs">95</span>, <span class="cs">65</span>];
+<span class="ck">const</span> students = [
+  { name: <span class="cs">"홍길동"</span>, score: <span class="cs">85</span> },
+  { name: <span class="cs">"김영희"</span>, score: <span class="cs">92</span> },
+  { name: <span class="cs">"이철수"</span>, score: <span class="cs">65</span> }
+];
+
+<span class="cc">// map — 각 요소를 변환해서 새 배열 반환</span>
+<span class="ck">const</span> doubled = scores.map(s =&gt; s * <span class="cs">2</span>);
+<span class="cc">// → [170, 184, 156, 190, 130]</span>
+
+<span class="ck">const</span> names = students.map(s =&gt; s.name);
+<span class="cc">// → ["홍길동", "김영희", "이철수"]</span>
+
+<span class="cc">// filter — 조건에 맞는 요소만 추려서 새 배열</span>
+<span class="ck">const</span> passed = students.filter(s =&gt; s.score &gt;= <span class="cs">80</span>);
+<span class="cc">// → [{ name: "홍길동", ... }, { name: "김영희", ... }]</span>
+
+<span class="cc">// find — 조건에 맞는 첫 번째 요소 하나만</span>
+<span class="ck">const</span> hong = students.find(s =&gt; s.name === <span class="cs">"홍길동"</span>);
+
+<span class="cc">// forEach — 각 요소로 뭔가 실행 (반환값 없음)</span>
+students.forEach(s =&gt; console.log(s.name));
+
+<span class="cc">// some — 하나라도 조건에 맞으면 true</span>
+<span class="ck">const</span> hasFailure = students.some(s =&gt; s.score &lt; <span class="cs">60</span>);
+
+<span class="cc">// every — 모두 조건에 맞으면 true</span>
+<span class="ck">const</span> allPassed = students.every(s =&gt; s.score &gt;= <span class="cs">60</span>);
+
+<span class="cc">// sort — 정렬</span>
+<span class="ck">const</span> sorted = [...students].sort((a, b) =&gt; b.score - a.score); <span class="cc">// 점수 내림차순</span>
+
+<span class="cc">// 배열 조작</span>
+students.push({ name: <span class="cs">"박지수"</span>, score: <span class="cs">88</span> }); <span class="cc">// 끝에 추가</span>
+students.pop();  <span class="cc">// 마지막 제거</span>
+students.slice(<span class="cs">0</span>, <span class="cs">2</span>);  <span class="cc">// 0~1번 인덱스만 추출</span></div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch7"><div class="gch-n">Chapter 7</div><h2>🗂️ JavaScript — 객체(Object)</h2><p>관련 데이터를 하나로 묶는 방법이에요. 실제 데이터는 거의 다 객체 형태예요.</p></div>
+
+<div class="gc"><h3>📁 객체 기본</h3>
+<div class="gcode"><span class="cc">// 객체 생성</span>
+<span class="ck">const</span> student = {
+  name: <span class="cs">"홍길동"</span>,
+  grade: <span class="cs">1</span>,
+  scores: { kor: <span class="cs">90</span>, math: <span class="cs">85</span>, eng: <span class="cs">88</span> },
+  hobbies: [<span class="cs">"독서"</span>, <span class="cs">"수영"</span>],
+
+  <span class="cc">// 메서드 (객체 안의 함수)</span>
+  getAvg() {
+    <span class="ck">return</span> (this.scores.kor + this.scores.math + this.scores.eng) / <span class="cs">3</span>;
+  }
+};
+
+<span class="cc">// 접근 방법</span>
+student.name;          <span class="cc">// "홍길동"</span>
+student["name"];       <span class="cc">// 같음 (변수로 접근할 때 유용)</span>
+student.scores.kor;    <span class="cc">// 90 (중첩 객체)</span>
+student.getAvg();      <span class="cc">// 87.67</span>
+
+<span class="cc">// 추가 / 수정 / 삭제</span>
+student.email = <span class="cs">"hong@school.kr"</span>;
+student.grade = <span class="cs">2</span>;
+<span class="ck">delete</span> student.email;</div></div>
+
+<div class="gc"><h3>✂️ 구조 분해 할당 (Destructuring) — 내가 매우 자주 쓰는 패턴</h3>
+<div class="gcode"><span class="ck">const</span> student = { name: <span class="cs">"홍길동"</span>, grade: <span class="cs">1</span>, score: <span class="cs">85</span> };
+
+<span class="cc">// 객체 구조 분해 — 변수 이름을 키 이름에 맞춤</span>
+<span class="ck">const</span> { name, grade, score } = student;
+console.log(name);  <span class="cc">// "홍길동"</span>
+
+<span class="cc">// 이름 바꾸기</span>
+<span class="ck">const</span> { name: studentName, score: totalScore } = student;
+
+<span class="cc">// 기본값 설정</span>
+<span class="ck">const</span> { name: n, email = <span class="cs">"없음"</span> } = student;
+
+<span class="cc">// 배열 구조 분해</span>
+<span class="ck">const</span> [first, second, ...rest] = [<span class="cs">1</span>, <span class="cs">2</span>, <span class="cs">3</span>, <span class="cs">4</span>, <span class="cs">5</span>];
+<span class="cc">// first=1, second=2, rest=[3,4,5]</span>
+
+<span class="cc">// 함수 매개변수에서도 사용 (내가 자주 씀!)</span>
+<span class="ck">function</span> showStudent({ name, grade }) {
+  console.log(<span class="cs">`${name} (${grade}학년)`</span>);
+}</div></div>
+
+<div class="gc"><h3>📤 스프레드 연산자 (...)</h3>
+<div class="gcode"><span class="cc">// 배열 합치기</span>
+<span class="ck">const</span> a = [<span class="cs">1</span>, <span class="cs">2</span>, <span class="cs">3</span>];
+<span class="ck">const</span> b = [<span class="cs">4</span>, <span class="cs">5</span>, <span class="cs">6</span>];
+<span class="ck">const</span> combined = [...a, ...b]; <span class="cc">// [1,2,3,4,5,6]</span>
+
+<span class="cc">// 배열 복사 (원본 안 건드림)</span>
+<span class="ck">const</span> copy = [...a];
+
+<span class="cc">// 객체 합치기/업데이트 (내가 매일 씀!)</span>
+<span class="ck">const</span> original = { name: <span class="cs">"홍길동"</span>, grade: <span class="cs">1</span> };
+<span class="ck">const</span> updated = { ...original, grade: <span class="cs">2</span>, email: <span class="cs">"hong@school.kr"</span> };
+<span class="cc">// { name: "홍길동", grade: 2, email: "hong@school.kr" }</span></div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch8"><div class="gch-n">Chapter 8</div><h2>🖱️ DOM 조작 — JavaScript로 화면 제어</h2><p>DOM은 HTML을 JavaScript로 조작할 수 있게 해주는 인터페이스예요. 버튼 클릭, 내용 변경, 요소 추가 등 모든 "동적" 동작이 여기서 일어나요.</p></div>
+
+<div class="gc"><h3>🔍 요소 선택</h3>
+<div class="gcode"><span class="cc">// 하나 선택 (CSS 셀렉터 방식 — 현대적, 권장)</span>
+<span class="ck">const</span> title = document.querySelector(<span class="cs">"h1"</span>);
+<span class="ck">const</span> btn = document.querySelector(<span class="cs">".submit-btn"</span>);
+<span class="ck">const</span> form = document.querySelector(<span class="cs">"#loginForm"</span>);
+
+<span class="cc">// 여러 개 선택</span>
+<span class="ck">const</span> items = document.querySelectorAll(<span class="cs">".student-card"</span>);
+items.forEach(item =&gt; console.log(item));
+
+<span class="cc">// ID로 선택 (구방식이지만 여전히 사용)</span>
+<span class="ck">const</span> el = document.getElementById(<span class="cs">"title"</span>);</div></div>
+
+<div class="gc"><h3>✏️ 요소 내용/스타일 변경</h3>
+<div class="gcode"><span class="ck">const</span> el = document.querySelector(<span class="cs">"#result"</span>);
+
+<span class="cc">// 텍스트 변경</span>
+el.textContent = <span class="cs">"새 내용"</span>;           <span class="cc">// 텍스트만 (HTML 태그 무시)</span>
+el.innerHTML = <span class="cs">"&lt;strong&gt;굵게&lt;/strong&gt;"</span>; <span class="cc">// HTML 포함 (주의: XSS 위험)</span>
+
+<span class="cc">// 스타일 변경</span>
+el.style.color = <span class="cs">"purple"</span>;
+el.style.display = <span class="cs">"none"</span>;     <span class="cc">// 숨기기</span>
+el.style.display = <span class="cs">"block"</span>;    <span class="cc">// 보이기</span>
+
+<span class="cc">// 클래스 조작</span>
+el.classList.add(<span class="cs">"active"</span>);     <span class="cc">// 클래스 추가</span>
+el.classList.remove(<span class="cs">"active"</span>);  <span class="cc">// 클래스 제거</span>
+el.classList.toggle(<span class="cs">"active"</span>);  <span class="cc">// 있으면 제거, 없으면 추가</span>
+el.classList.contains(<span class="cs">"active"</span>);<span class="cc">// 있는지 확인 (true/false)</span>
+
+<span class="cc">// 속성 변경</span>
+el.setAttribute(<span class="cs">"placeholder"</span>, <span class="cs">"이름 입력"</span>);
+el.getAttribute(<span class="cs">"href"</span>);</div></div>
+
+<div class="gc"><h3>👂 이벤트 처리</h3>
+<div class="gcode"><span class="ck">const</span> btn = document.querySelector(<span class="cs">"#submitBtn"</span>);
+
+<span class="cc">// addEventListener — 권장 방식</span>
+btn.addEventListener(<span class="cs">"click"</span>, () =&gt; {
+  console.log(<span class="cs">"버튼 클릭!"</span>);
+});
+
+<span class="cc">// 자주 쓰는 이벤트 종류</span>
+el.addEventListener(<span class="cs">"click"</span>, handler);    <span class="cc">// 클릭</span>
+el.addEventListener(<span class="cs">"input"</span>, handler);    <span class="cc">// 입력값 변경</span>
+el.addEventListener(<span class="cs">"change"</span>, handler);   <span class="cc">// 값 확정 변경</span>
+el.addEventListener(<span class="cs">"submit"</span>, handler);   <span class="cc">// 폼 제출</span>
+el.addEventListener(<span class="cs">"keydown"</span>, handler);  <span class="cc">// 키 누름</span>
+el.addEventListener(<span class="cs">"mouseover"</span>, handler);<span class="cc">// 마우스 올림</span>
+
+<span class="cc">// 이벤트 객체 (e)</span>
+btn.addEventListener(<span class="cs">"click"</span>, (e) =&gt; {
+  e.preventDefault();  <span class="cc">// 기본 동작 막기 (폼 제출 등)</span>
+  console.log(e.target);  <span class="cc">// 클릭된 요소</span>
+});
+
+<span class="cc">// input 값 읽기</span>
+<span class="ck">const</span> input = document.querySelector(<span class="cs">"#nameInput"</span>);
+input.addEventListener(<span class="cs">"input"</span>, (e) =&gt; {
+  <span class="ck">const</span> value = e.target.value;
+  console.log(value);
+});</div></div>
+
+<div class="gc"><h3>🏗️ 동적 HTML 생성 — 코드로 요소 만들기</h3>
+<div class="gcode"><span class="cc">// 방법 1: innerHTML (간단하지만 보안 주의)</span>
+<span class="ck">const</span> container = document.querySelector(<span class="cs">"#studentList"</span>);
+container.innerHTML = <span class="cs">`
+  &lt;div class="card"&gt;
+    &lt;h3&gt;홍길동&lt;/h3&gt;
+    &lt;p&gt;학번: 10101&lt;/p&gt;
+  &lt;/div&gt;
+`</span>;
+
+<span class="cc">// 방법 2: createElement (안전하고 정확)</span>
+<span class="ck">const</span> card = document.createElement(<span class="cs">"div"</span>);
+card.className = <span class="cs">"card"</span>;
+card.textContent = <span class="cs">"홍길동"</span>;
+container.appendChild(card);  <span class="cc">// 끝에 추가</span>
+
+<span class="cc">// 실전: 배열로 카드 목록 생성</span>
+<span class="ck">const</span> students = [<span class="cs">"홍길동"</span>, <span class="cs">"김영희"</span>, <span class="cs">"이철수"</span>];
+container.innerHTML = students.map(name =&gt;
+  <span class="cs">`&lt;div class="card"&gt;${name}&lt;/div&gt;`</span>
+).join(<span class="cs">""</span>);</div></div><p>웹의 3총사. 각각 무슨 역할을 하는지 알아봐요.</p></div>
+<div class="gan" style="margin-bottom:13px"><div class="lbl">🏠 집 짓기 비유</div><p><strong>HTML</strong> = 구조 (벽, 문) &nbsp;|&nbsp; <strong>CSS</strong> = 인테리어 (색상, 가구) &nbsp;|&nbsp; <strong>JavaScript</strong> = 전기·수도 (실제 작동)</p></div>
+<div class="gc"><h3>🧱 HTML — 구조. 태그는 항상 &lt;열기&gt; 내용 &lt;/닫기&gt; 쌍!</h3>
+<div class="gcode"><span class="ct">&lt;h1&gt;</span>큰 제목<span class="ct">&lt;/h1&gt;</span>
+<span class="ct">&lt;p&gt;</span>문단 텍스트입니다.<span class="ct">&lt;/p&gt;</span>
+<span class="ct">&lt;button&gt;</span>세특 생성<span class="ct">&lt;/button&gt;</span></div></div>
+<div class="gc"><h3>🎨 CSS — 스타일</h3>
+<div class="gcode">button {
+  background-color: <span class="cs">#c9a8e0</span>; <span class="cc">/* 보라색 배경 */</span>
+  border-radius: <span class="cs">20px</span>;      <span class="cc">/* 둥근 모서리 */</span>
+  color: <span class="cs">white</span>;
+}</div></div>
+<div class="gc"><h3>⚡ JavaScript — 동작</h3>
+<div class="gcode">button.onclick = <span class="ck">function</span>() {
+  alert(<span class="cs">"클릭됐어요!"</span>);
+}</div></div>
+
+<div class="gdiv"></div>
+<!-- ═══ PART 3 ═══ -->
+<div style="background:linear-gradient(135deg,#1a2040,#2d1a30);border-radius:16px;padding:20px 24px;margin-bottom:24px;text-align:center">
+  <div style="color:#a8c8f5;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">PART 3</div>
+  <div style="color:#e8f0ff;font-size:1.3rem;font-weight:700">비동기 프로그래밍 &amp; API</div>
+  <div style="color:#7090c0;font-size:.85rem;margin-top:4px">서버와 대화하는 법, AI API 연동, JSON 다루기</div>
+</div>
+
+<div class="gch" id="ch9"><div class="gch-n">Chapter 9</div><h2>⏳ 비동기 프로그래밍</h2><p>JavaScript의 가장 중요한 개념 중 하나예요. AI 응답을 기다리거나, 데이터를 불러올 때 반드시 필요해요.</p></div>
+
+<div class="gc"><h3>🔄 동기 vs 비동기</h3>
+<div class="gan"><div class="lbl">🏥 병원 대기 비유</div><p><strong>동기(Sync)</strong>: 내 번호가 불릴 때까지 아무것도 못 함. 앞 사람 끝나야 다음.<br><strong>비동기(Async)</strong>: 번호표 뽑고 카페 갔다 옴. 번호 불리면 그때 처리.</p></div>
+<div class="gcode"><span class="cc">// 동기 코드 — 순서대로 실행 (위에서 아래로)</span>
+console.log(<span class="cs">"1"</span>);
+console.log(<span class="cs">"2"</span>);
+console.log(<span class="cs">"3"</span>);
+<span class="cc">// 출력: 1, 2, 3</span>
+
+<span class="cc">// 비동기 코드 — setTimeout은 나중에 실행</span>
+console.log(<span class="cs">"1"</span>);
+setTimeout(() =&gt; console.log(<span class="cs">"2"</span>), <span class="cs">1000</span>); <span class="cc">// 1초 후</span>
+console.log(<span class="cs">"3"</span>);
+<span class="cc">// 출력: 1, 3, 2 (2가 나중에!)</span></div></div>
+
+<div class="gc"><h3>🤝 Promise — 비동기 결과의 약속</h3>
+<div class="gcode"><span class="cc">// Promise: "나중에 결과를 줄게"라는 약속 객체</span>
+<span class="ck">const</span> promise = <span class="ck">new</span> Promise((resolve, reject) =&gt; {
+  <span class="cc">// 성공하면 resolve 호출</span>
+  resolve(<span class="cs">"성공 데이터"</span>);
+  <span class="cc">// 실패하면 reject 호출</span>
+  <span class="cc">// reject(new Error("실패!"))</span>
+});
+
+promise
+  .then(data =&gt; console.log(data))   <span class="cc">// 성공 시</span>
+  .catch(err =&gt; console.log(err))   <span class="cc">// 실패 시</span>
+  .finally(() =&gt; console.log(<span class="cs">"항상 실행"</span>)); <span class="cc">// 항상</span></div></div>
+
+<div class="gc"><h3>⭐ async / await — 비동기를 동기처럼 쓰는 방법</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">내가 코딩할 때 <strong>거의 모든 비동기 코드</strong>를 이렇게 써요. Promise보다 훨씬 읽기 쉬워요.</p>
+<div class="gcode"><span class="cc">// async 함수 안에서만 await 사용 가능</span>
+<span class="ck">async function</span> fetchStudents() {
+  <span class="ck">try</span> {
+    <span class="cc">// await: 이 줄이 끝날 때까지 기다려</span>
+    <span class="ck">const</span> response = <span class="ck">await</span> fetch(<span class="cs">"/api/students"</span>);
+    <span class="ck">const</span> data = <span class="ck">await</span> response.json();
+    console.log(data);
+  } <span class="ck">catch</span> (error) {
+    <span class="cc">// 에러 처리</span>
+    console.error(<span class="cs">"오류:"</span>, error);
+  }
+}
+
+<span class="cc">// 화살표 함수도 async 가능</span>
+<span class="ck">const</span> loadData = <span class="ck">async</span> () =&gt; {
+  <span class="ck">const</span> result = <span class="ck">await</span> someAsyncOperation();
+  <span class="ck">return</span> result;
+};</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch10"><div class="gch-n">Chapter 10</div><h2>🌐 HTTP &amp; Fetch API</h2><p>서버에 데이터를 요청하고 받아오는 방법이에요. AI API 호출, DB 조회 등 모든 통신이 이 방식이에요.</p></div>
+
+<div class="gc"><h3>📡 fetch() 기본 사용법</h3>
+<div class="gcode"><span class="cc">// GET 요청 — 데이터 가져오기</span>
+<span class="ck">const</span> getData = <span class="ck">async</span> () =&gt; {
+  <span class="ck">const</span> response = <span class="ck">await</span> fetch(<span class="cs">"/api/students"</span>);
+
+  <span class="cc">// 상태 코드 확인</span>
+  <span class="ck">if</span> (!response.ok) {
+    <span class="ck">throw new</span> Error(<span class="cs">`HTTP error! status: ${response.status}`</span>);
+  }
+
+  <span class="ck">const</span> data = <span class="ck">await</span> response.json();  <span class="cc">// JSON으로 파싱</span>
+  <span class="ck">return</span> data;
+};
+
+<span class="cc">// POST 요청 — 데이터 보내기</span>
+<span class="ck">const</span> postData = <span class="ck">async</span> (studentInfo) =&gt; {
+  <span class="ck">const</span> response = <span class="ck">await</span> fetch(<span class="cs">"/api/students"</span>, {
+    method: <span class="cs">"POST"</span>,
+    headers: {
+      <span class="cs">"Content-Type"</span>: <span class="cs">"application/json"</span>,  <span class="cc">// JSON 형식으로 보냄</span>
+    },
+    body: JSON.stringify(studentInfo),  <span class="cc">// 객체 → 문자열 변환</span>
+  });
+  <span class="ck">const</span> result = <span class="ck">await</span> response.json();
+  <span class="ck">return</span> result;
+};</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch11"><div class="gch-n">Chapter 11</div><h2>📋 JSON 완전 이해</h2><p>서버-클라이언트 간 데이터를 주고받는 표준 형식이에요. API 응답은 거의 다 JSON이에요.</p></div>
+
+<div class="gc"><h3>📝 JSON 문법</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">JavaScript 객체와 거의 같지만, 키는 반드시 큰따옴표를 써야 해요.</p>
+<div class="gcode"><span class="cc">// JSON 형식 — 키는 반드시 "큰따옴표"</span>
+{
+  <span class="cs">"name"</span>: <span class="cs">"홍길동"</span>,
+  <span class="cs">"grade"</span>: <span class="cs">1</span>,
+  <span class="cs">"isActive"</span>: <span class="cs">true</span>,
+  <span class="cs">"scores"</span>: [<span class="cs">85</span>, <span class="cs">90</span>, <span class="cs">78</span>],
+  <span class="cs">"address"</span>: <span class="cs">null</span>
+}
+
+<span class="cc">// JSON 변환</span>
+<span class="ck">const</span> obj = { name: <span class="cs">"홍길동"</span>, grade: <span class="cs">1</span> };
+
+<span class="cc">// 객체 → JSON 문자열 (서버로 보낼 때)</span>
+<span class="ck">const</span> jsonString = JSON.stringify(obj);
+<span class="cc">// → '{"name":"홍길동","grade":1}'</span>
+
+<span class="cc">// JSON 문자열 → 객체 (서버에서 받을 때)</span>
+<span class="ck">const</span> parsed = JSON.parse(jsonString);
+<span class="cc">// → { name: "홍길동", grade: 1 }</span>
+
+<span class="cc">// 예쁘게 출력 (디버깅할 때)</span>
+console.log(JSON.stringify(obj, <span class="cs">null</span>, <span class="cs">2</span>));</div></div>
+
+<div class="gc"><h3>🔍 실제 API 응답 JSON 다루기</h3>
+<div class="gcode"><span class="cc">// Supabase에서 학생 목록을 받으면 이런 구조</span>
+<span class="ck">const</span> apiResponse = {
+  data: [
+    { id: <span class="cs">1</span>, name: <span class="cs">"홍길동"</span>, grade: <span class="cs">1</span>, score: <span class="cs">85</span> },
+    { id: <span class="cs">2</span>, name: <span class="cs">"김영희"</span>, grade: <span class="cs">1</span>, score: <span class="cs">92</span> }
+  ],
+  count: <span class="cs">2</span>
+};
+
+<span class="cc">// 데이터 사용</span>
+apiResponse.data.forEach(student =&gt; {
+  console.log(<span class="cs">`${student.name}: ${student.score}점`</span>);
+});
+
+<span class="cc">// 이름만 추출</span>
+<span class="ck">const</span> names = apiResponse.data.map(s =&gt; s.name);
+
+<span class="cc">// 점수 80 이상인 학생만</span>
+<span class="ck">const</span> honor = apiResponse.data.filter(s =&gt; s.score &gt;= <span class="cs">80</span>);</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch12"><div class="gch-n">Chapter 12</div><h2>🤖 AI API 연동 (Claude &amp; Gemini)</h2><p>내가 세특 생성 사이트 등에서 AI를 붙이는 방법이에요. 핵심만 빠르게 이해해요.</p></div>
+
+<div class="gc"><h3>🔑 API 키와 환경변수</h3>
+<div class="gcode"><span class="cc"># .env.local 파일 (절대 GitHub에 올리면 안 됨!)</span>
+<span class="ct">GEMINI_API_KEY</span>=<span class="cs">AIzaSyB...</span>
+<span class="ct">ANTHROPIC_API_KEY</span>=<span class="cs">sk-ant-api03-...</span>
+<span class="ct">TEACHER_PASSWORD</span>=<span class="cs">비밀번호</span>
+
+<span class="cc"># .gitignore에 추가</span>
+<span class="ct">.env.local</span>
+<span class="ct">.env</span></div>
+<div class="ghl">⚠️ API 키를 실수로 GitHub에 올리면 자동으로 도용돼서 요금이 청구될 수 있어요! 항상 .gitignore에 .env 추가!</div></div>
+
+<div class="gc"><h3>✨ Gemini API 호출 (Next.js API Route)</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">내가 세특 사이트에서 실제로 쓰는 방식이에요. 서버 쪽(API route)에서 AI를 호출해요.</p>
+<div class="gcode"><span class="cc">// pages/api/generate.js (또는 app/api/generate/route.js)</span>
+<span class="ck">import</span> { GoogleGenerativeAI } <span class="ck">from</span> <span class="cs">"@google/generative-ai"</span>;
+
+<span class="ck">export default async function</span> handler(req, res) {
+  <span class="ck">if</span> (req.method !== <span class="cs">"POST"</span>) {
+    <span class="ck">return</span> res.status(<span class="cs">405</span>).json({ error: <span class="cs">"Method not allowed"</span> });
+  }
+
+  <span class="ck">const</span> { studentData, activities } = req.body;
+
+  <span class="cc">// API 키는 환경변수에서 (서버에서만 접근 가능)</span>
+  <span class="ck">const</span> genAI = <span class="ck">new</span> GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  <span class="ck">const</span> model = genAI.getGenerativeModel({ model: <span class="cs">"gemini-1.5-flash"</span> });
+
+  <span class="ck">const</span> prompt = <span class="cs">`
+    학생 정보: ${studentData}
+    참여 활동: ${activities}
+    위 내용을 바탕으로 300자 세특을 작성해주세요.
+  `</span>;
+
+  <span class="ck">const</span> result = <span class="ck">await</span> model.generateContent(prompt);
+  <span class="ck">const</span> text = result.response.text();
+
+  res.json({ result: text });
+}</div></div>
+
+<div class="gc"><h3>📱 프론트엔드에서 AI API 호출</h3>
+<div class="gcode"><span class="cc">// 버튼 클릭 → 서버 API 호출 → 결과 표시</span>
+<span class="ck">const</span> generateScope = <span class="ck">async</span> () =&gt; {
+  <span class="cc">// 로딩 표시</span>
+  setLoading(<span class="cs">true</span>);
+
+  <span class="ck">try</span> {
+    <span class="ck">const</span> response = <span class="ck">await</span> fetch(<span class="cs">"/api/generate"</span>, {
+      method: <span class="cs">"POST"</span>,
+      headers: { <span class="cs">"Content-Type"</span>: <span class="cs">"application/json"</span> },
+      body: JSON.stringify({
+        studentData: <span class="cs">"홍길동, 1학년, 인문계열"</span>,
+        activities: <span class="cs">"현장체험학습, 조별 토론 우수"</span>
+      })
+    });
+
+    <span class="ck">const</span> data = <span class="ck">await</span> response.json();
+    setResult(data.result);  <span class="cc">// 화면에 결과 표시</span>
+  } <span class="ck">catch</span> (err) {
+    setError(<span class="cs">"오류가 발생했어요"</span>);
+  } <span class="ck">finally</span> {
+    setLoading(<span class="cs">false</span>);  <span class="cc">// 로딩 종료</span>
+  }
+};</div></div>
+
+<div class="gc"><h3>🧠 프롬프트 엔지니어링 기초</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">AI에게 좋은 결과를 얻는 프롬프트 작성 팁이에요. 내가 항상 신경 쓰는 부분이에요.</p>
+<div class="gtg">
+<div class="gti2"><div class="tn">역할 부여</div><div class="td">"당신은 경력 10년의 고등학교 담임교사입니다" → AI가 그 관점으로 답변</div></div>
+<div class="gti2"><div class="tn">구체적 형식 지정</div><div class="td">"300자 이내로", "한국어로", "존댓말 사용" 등 명확하게 지시</div></div>
+<div class="gti2"><div class="tn">예시 제공</div><div class="td">좋은 세특 예시를 보여주면 비슷한 형식으로 생성</div></div>
+<div class="gti2"><div class="tn">컨텍스트 최소화</div><div class="td">필요한 정보만 보내기. 불필요한 데이터는 토큰 낭비</div></div>
+</div>
+<div class="ghl">토큰(Token)이란? AI가 텍스트를 처리하는 단위. 한국어는 약 2~3글자 = 1토큰. API 비용은 토큰 수에 따라 결정돼요.</div></div>
+
+<div class="gdiv"></div>
+<!-- ═══ PART 4 ═══ -->
+<div style="background:linear-gradient(135deg,#1a2818,#281a2d);border-radius:16px;padding:20px 24px;margin-bottom:24px;text-align:center">
+  <div style="color:#b8f5a8;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">PART 4</div>
+  <div style="color:#f0ffe8;font-size:1.3rem;font-weight:700">React &amp; Next.js</div>
+  <div style="color:#70a060;font-size:.85rem;margin-top:4px">내가 만드는 모든 웹사이트의 기반 — 컴포넌트·상태·라우팅</div>
+</div>
+
+<div class="gch" id="ch13"><div class="gch-n">Chapter 13</div><h2>⚛️ React 핵심 개념</h2><p>UI를 컴포넌트 조각으로 만드는 라이브러리예요. 내가 사이트를 만들 때 쓰는 핵심 도구예요.</p></div>
+
+<div class="gc"><h3>🧩 왜 React를 쓰나요?</h3>
+<div class="gg2">
+<div class="gcell cpk"><h4>😣 순수 HTML/JS</h4><p>학생 100명 카드를 만들려면 HTML을 100번 복붙해야 함. 데이터가 바뀌면 수동으로 화면도 갱신</p></div>
+<div class="gcell cbl"><h4>⚛️ React</h4><p>&lt;StudentCard /&gt; 컴포넌트 하나만 만들면, 100번 재사용. 데이터 바뀌면 화면 자동 업데이트!</p></div>
+</div></div>
+
+<div class="gc"><h3>🔷 컴포넌트 (Component)</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">React의 기본 단위예요. 함수가 JSX(HTML처럼 생긴 것)를 반환하는 형태예요.</p>
+<div class="gcode"><span class="cc">// 컴포넌트 = 재사용 가능한 UI 조각</span>
+<span class="cc">// 파일명: StudentCard.jsx</span>
+<span class="ck">export default function</span> StudentCard({ name, grade, score }) {
+  <span class="ck">return</span> (
+    <span class="ct">&lt;div</span> className=<span class="cs">"card"</span><span class="ct">&gt;</span>
+      <span class="ct">&lt;h3&gt;</span>{name}<span class="ct">&lt;/h3&gt;</span>
+      <span class="ct">&lt;p&gt;</span>{grade}학년 — {score}점<span class="ct">&lt;/p&gt;</span>
+    <span class="ct">&lt;/div&gt;</span>
+  );
+}
+
+<span class="cc">// 사용할 때</span>
+<span class="ct">&lt;StudentCard</span> name=<span class="cs">"홍길동"</span> grade=<span class="cs">{1}</span> score=<span class="cs">{85}</span> <span class="ct">/&gt;</span>
+<span class="ct">&lt;StudentCard</span> name=<span class="cs">"김영희"</span> grade=<span class="cs">{1}</span> score=<span class="cs">{92}</span> <span class="ct">/&gt;</span></div>
+<div class="ghl">JSX란? HTML처럼 생겼지만 JavaScript 안에서 쓰는 문법이에요. class 대신 className, for 대신 htmlFor를 써요.</div></div>
+
+<div class="gc"><h3>🔄 useState — 화면을 바꾸는 상태</h3>
+<div class="gcode"><span class="ck">import</span> { useState } <span class="ck">from</span> <span class="cs">"react"</span>;
+
+<span class="ck">export default function</span> Counter() {
+  <span class="cc">// [현재값, 변경함수] = useState(초기값)</span>
+  <span class="ck">const</span> [count, setCount] = useState(<span class="cs">0</span>);
+  <span class="ck">const</span> [name, setName] = useState(<span class="cs">""</span>);
+  <span class="ck">const</span> [students, setStudents] = useState([]);
+  <span class="ck">const</span> [isLoading, setIsLoading] = useState(<span class="cs">false</span>);
+
+  <span class="ck">return</span> (
+    <span class="ct">&lt;div&gt;</span>
+      <span class="ct">&lt;p&gt;</span>카운트: {count}<span class="ct">&lt;/p&gt;</span>
+      <span class="cc">{/* setCount 호출하면 화면이 자동 업데이트! */}</span>
+      <span class="ct">&lt;button</span> onClick={() =&gt; setCount(count + <span class="cs">1</span>)}<span class="ct">&gt;</span>+1<span class="ct">&lt;/button&gt;</span>
+
+      <span class="cc">{/* 입력값 상태 관리 */}</span>
+      <span class="ct">&lt;input</span>
+        value={name}
+        onChange={(e) =&gt; setName(e.target.value)}
+        placeholder=<span class="cs">"이름 입력"</span>
+      <span class="ct">/&gt;</span>
+    <span class="ct">&lt;/div&gt;</span>
+  );
+}</div></div>
+
+<div class="gc"><h3>⚡ useEffect — 사이드 이펙트 처리</h3>
+<div class="gcode"><span class="ck">import</span> { useState, useEffect } <span class="ck">from</span> <span class="cs">"react"</span>;
+
+<span class="ck">export default function</span> StudentList() {
+  <span class="ck">const</span> [students, setStudents] = useState([]);
+
+  <span class="cc">// 빈 배열 [] → 처음 한 번만 실행 (데이터 로드)</span>
+  useEffect(() =&gt; {
+    <span class="ck">const</span> loadStudents = <span class="ck">async</span> () =&gt; {
+      <span class="ck">const</span> res = <span class="ck">await</span> fetch(<span class="cs">"/api/students"</span>);
+      <span class="ck">const</span> data = <span class="ck">await</span> res.json();
+      setStudents(data);
+    };
+    loadStudents();
+  }, []); <span class="cc">// ← 의존성 배열</span>
+
+  <span class="cc">// [변수] → 변수가 바뀔 때마다 실행</span>
+  useEffect(() =&gt; {
+    document.title = <span class="cs">`학생 ${students.length}명`</span>;
+  }, [students]);
+
+  <span class="ck">return</span> (
+    <span class="ct">&lt;ul&gt;</span>
+      {students.map(s =&gt; (
+        <span class="ct">&lt;li</span> key={s.id}<span class="ct">&gt;</span>{s.name}<span class="ct">&lt;/li&gt;</span>
+      ))}
+    <span class="ct">&lt;/ul&gt;</span>
+  );
+}</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch14"><div class="gch-n">Chapter 14</div><h2>▲ Next.js 입문</h2><p>React 위에 서버 기능을 추가한 프레임워크예요. 내가 모든 사이트를 Next.js로 만드는 이유예요.</p></div>
+
+<div class="gc"><h3>📁 파일 기반 라우팅</h3>
+<div class="gcode"><span class="cc">// 파일 경로 = URL 주소!</span>
+pages/
+  index.js          → /               (메인 페이지)
+  teacher/
+    index.js        → /teacher        (교사 메뉴)
+    scope.js        → /teacher/scope  (세특 작성)
+  student/
+    [id].js         → /student/123    (동적 라우팅)</div>
+<div class="ghl">Next.js의 가장 큰 장점: 파일을 만들면 바로 페이지가 됩니다. 라우팅 설정 따로 안 해도 돼요!</div></div>
+
+<div class="gc"><h3>🔌 API Routes — 백엔드 함수</h3>
+<div class="gcode"><span class="cc">// pages/api/students.js → /api/students 주소로 호출 가능</span>
+<span class="ck">export default async function</span> handler(req, res) {
+  <span class="cc">// HTTP 메서드에 따라 처리</span>
+  <span class="ck">if</span> (req.method === <span class="cs">"GET"</span>) {
+    <span class="cc">// DB에서 학생 목록 가져오기</span>
+    <span class="ck">const</span> students = <span class="ck">await</span> getStudentsFromDB();
+    res.status(<span class="cs">200</span>).json(students);
+
+  } <span class="ck">else if</span> (req.method === <span class="cs">"POST"</span>) {
+    <span class="cc">// 요청 본문 데이터</span>
+    <span class="ck">const</span> { name, grade } = req.body;
+    <span class="ck">const</span> newStudent = <span class="ck">await</span> createStudent({ name, grade });
+    res.status(<span class="cs">201</span>).json(newStudent);
+  }
+}</div></div>
+
+<div class="gc"><h3>🗂️ 전형적인 Next.js 프로젝트 구조</h3>
+<div class="gcode">my-project/
+├── pages/             <span class="cc">← 페이지 파일</span>
+│   ├── index.js       <span class="cc">← 메인 페이지</span>
+│   └── api/           <span class="cc">← API 라우트 (백엔드)</span>
+│       └── generate.js
+├── components/        <span class="cc">← 재사용 컴포넌트</span>
+│   ├── StudentCard.jsx
+│   └── Header.jsx
+├── styles/            <span class="cc">← CSS 파일</span>
+│   └── globals.css
+├── public/            <span class="cc">← 이미지 등 정적 파일</span>
+├── .env.local         <span class="cc">← 비밀 키 (GitHub 제외!)</span>
+├── .gitignore
+├── package.json       <span class="cc">← 프로젝트 정보 및 패키지 목록</span>
+└── next.config.js</div></div>
+
+<div class="gdiv"></div>
+<!-- ═══ PART 5 ═══ -->
+<div style="background:linear-gradient(135deg,#281a10,#10281a);border-radius:16px;padding:20px 24px;margin-bottom:24px;text-align:center">
+  <div style="color:#f5c8a8;font-size:.72rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:6px">PART 5</div>
+  <div style="color:#fff5e8;font-size:1.3rem;font-weight:700">백엔드 · 보안 · 개발도구</div>
+  <div style="color:#a07050;font-size:.85rem;margin-top:4px">데이터베이스, 인증, Git, 그리고 개발자 필수 도구</div>
+</div>
+
+<div class="gch" id="ch15"><div class="gch-n">Chapter 15</div><h2>🗄️ 데이터베이스</h2><p>데이터를 영구적으로 저장하는 곳이에요. 내가 주로 쓰는 건 Supabase(PostgreSQL 기반)예요.</p></div>
+
+<div class="gc"><h3>📊 기본 SQL 명령어</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">SQL(Structured Query Language)은 DB와 대화하는 언어예요. 4가지만 알면 돼요: CRUD</p>
+<div class="gcode"><span class="cc">-- CREATE (생성)</span>
+INSERT INTO students (name, grade, score)
+VALUES (<span class="cs">'홍길동'</span>, <span class="cs">1</span>, <span class="cs">85</span>);
+
+<span class="cc">-- READ (조회)</span>
+SELECT * FROM students;
+SELECT name, score FROM students WHERE grade = <span class="cs">1</span>;
+SELECT * FROM students ORDER BY score DESC;
+SELECT * FROM students WHERE score &gt;= <span class="cs">80</span> AND grade = <span class="cs">1</span>;
+
+<span class="cc">-- UPDATE (수정)</span>
+UPDATE students SET score = <span class="cs">90</span> WHERE name = <span class="cs">'홍길동'</span>;
+
+<span class="cc">-- DELETE (삭제)</span>
+DELETE FROM students WHERE id = <span class="cs">5</span>;</div></div>
+
+<div class="gc"><h3>⚡ Supabase 사용법 (JavaScript)</h3>
+<div class="gcode"><span class="ck">import</span> { createClient } <span class="ck">from</span> <span class="cs">"@supabase/supabase-js"</span>;
+
+<span class="cc">// 연결</span>
+<span class="ck">const</span> supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
+
+<span class="cc">// 조회</span>
+<span class="ck">const</span> { data, error } = <span class="ck">await</span> supabase
+  .from(<span class="cs">"students"</span>)
+  .select(<span class="cs">"*"</span>)
+  .eq(<span class="cs">"grade"</span>, <span class="cs">1</span>)
+  .order(<span class="cs">"name"</span>);
+
+<span class="cc">// 삽입</span>
+<span class="ck">await</span> supabase.from(<span class="cs">"students"</span>).insert({ name: <span class="cs">"홍길동"</span>, grade: <span class="cs">1</span> });
+
+<span class="cc">// 수정</span>
+<span class="ck">await</span> supabase.from(<span class="cs">"students"</span>).update({ score: <span class="cs">90</span> }).eq(<span class="cs">"id"</span>, <span class="cs">1</span>);
+
+<span class="cc">// 삭제</span>
+<span class="ck">await</span> supabase.from(<span class="cs">"students"</span>).delete().eq(<span class="cs">"id"</span>, <span class="cs">1</span>);</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch16"><div class="gch-n">Chapter 16</div><h2>🔒 인증과 보안</h2><p>로그인, 비밀번호, API 키 보호 등 보안의 기초예요.</p></div>
+
+<div class="gc"><h3>🔐 환경변수 — 비밀 정보 관리</h3>
+<div class="gcode"><span class="cc"># .env.local (로컬에서만 사용)</span>
+<span class="ct">NEXT_PUBLIC_SUPABASE_URL</span>=<span class="cs">https://abc.supabase.co</span>
+<span class="ct">NEXT_PUBLIC_SUPABASE_ANON_KEY</span>=<span class="cs">eyJ...</span>
+<span class="ct">GEMINI_API_KEY</span>=<span class="cs">AIza...</span>
+<span class="ct">TEACHER_PASSWORD</span>=<span class="cs">비밀번호</span></div>
+<div class="gtg">
+<div class="gti2"><div class="tn">NEXT_PUBLIC_ 접두사</div><div class="td">브라우저에서도 읽을 수 있음. 공개해도 괜찮은 값에만 사용</div></div>
+<div class="gti2"><div class="tn">접두사 없음</div><div class="td">서버에서만 읽힘. API 키, 비밀번호 등 민감한 정보에 사용</div></div>
+</div>
+<div class="ghl">⚠️ Vercel 배포 시 "Settings → Environment Variables"에 각 키를 따로 입력해야 해요!</div></div>
+
+<div class="gc"><h3>🛡️ 기본 보안 수칙</h3>
+<div class="gtg">
+<div class="gti2"><div class="tn">XSS 방지</div><div class="td">사용자 입력을 innerHTML에 직접 넣지 않기. React는 기본적으로 방어해줌</div></div>
+<div class="gti2"><div class="tn">SQL Injection 방지</div><div class="td">문자열 직접 조합 대신 Supabase 메서드나 Prepared Statement 사용</div></div>
+<div class="gti2"><div class="tn">HTTPS 사용</div><div class="td">Vercel은 자동으로 HTTPS 제공. localhost에서만 http 사용</div></div>
+<div class="gti2"><div class="tn">비밀번호 해시</div><div class="td">비밀번호는 절대 평문 저장 금지. bcrypt로 해시해서 저장</div></div>
+<div class="gti2"><div class="tn">API 인증</div><div class="td">API route에서 Authorization 헤더나 쿠키로 로그인 여부 확인</div></div>
+<div class="gti2"><div class="tn">.gitignore 필수</div><div class="td">.env.local, node_modules, .next를 반드시 gitignore에 추가</div></div>
+</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch17"><div class="gch-n">Chapter 17</div><h2>🌿 Git &amp; GitHub 완전 이해</h2><p>코드 버전 관리와 협업 도구예요. 내가 모든 프로젝트에서 필수로 쓰는 도구예요.</p></div>
+
+<div class="gc"><h3>🔄 Git의 핵심 개념</h3>
+<div class="gan"><div class="lbl">📸 사진 앨범 비유</div><p>코드를 수정할 때마다 스냅샷(commit)을 찍어요. 나중에 이전 상태로 언제든 되돌아갈 수 있어요.<br>GitHub는 그 사진 앨범을 클라우드에 저장하는 곳이에요.</p></div>
+<div class="gcode"><span class="cc"># 처음 시작</span>
+git init                          <span class="cc"># Git 시작</span>
+git remote add origin [깃허브URL] <span class="cc"># 원격 저장소 연결</span>
+
+<span class="cc"># 매일 쓰는 기본 흐름</span>
+git status            <span class="cc"># 변경된 파일 확인</span>
+git add .             <span class="cc"># 모든 변경 파일 스테이징</span>
+git add 파일명         <span class="cc"># 특정 파일만 스테이징</span>
+git commit -m "내용 수정" <span class="cc"># 스냅샷 저장 (메시지 필수!)</span>
+git push              <span class="cc"># GitHub에 업로드 → Vercel 자동 배포!</span>
+git pull              <span class="cc"># GitHub에서 최신 코드 가져오기</span>
+
+<span class="cc"># 기록 보기</span>
+git log --oneline     <span class="cc"># 커밋 목록 요약</span>
+git diff              <span class="cc"># 변경 내용 비교</span></div></div>
+
+<div class="gc"><h3>🌿 브랜치 (Branch)</h3>
+<p style="font-size:.86rem;color:#5a5070;margin-bottom:8px">기존 코드를 건드리지 않고 새 기능을 개발하는 독립된 작업 공간이에요.</p>
+<div class="gcode"><span class="cc"># 브랜치 생성 및 이동</span>
+git branch feature/ai-generate     <span class="cc"># 브랜치 생성</span>
+git checkout feature/ai-generate   <span class="cc"># 이동</span>
+git checkout -b feature/new-feature <span class="cc"># 생성+이동 한 번에</span>
+
+<span class="cc"># 작업 후 main에 합치기</span>
+git checkout main
+git merge feature/ai-generate
+
+<span class="cc"># 브랜치 삭제</span>
+git branch -d feature/ai-generate</div></div>
+
+<div class="gc"><h3>📄 .gitignore — GitHub에 올리면 안 되는 파일</h3>
+<div class="gcode"><span class="cc"># .gitignore 파일 내용 예시</span>
+node_modules/     <span class="cc"># 패키지 파일 (npm install로 복원 가능)</span>
+.env.local        <span class="cc"># 비밀 키!</span>
+.env              <span class="cc"># 비밀 키!</span>
+.next/            <span class="cc"># 빌드 파일 (자동 생성)</span>
+.DS_Store         <span class="cc"># Mac 시스템 파일</span>
+*.log             <span class="cc"># 로그 파일</span></div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch18"><div class="gch-n">Chapter 18</div><h2>🛠️ 개발 도구 활용</h2><p>개발 속도를 10배 올려주는 도구들이에요. 이것만 잘 써도 훨씬 효율적이에요.</p></div>
+
+<div class="gc"><h3>🔍 브라우저 개발자 도구 (F12)</h3>
+<div class="gtg">
+<div class="gti2"><div class="tn">Elements 탭</div><div class="td">HTML/CSS를 실시간으로 확인·수정. 어떤 요소에 어떤 스타일이 적용됐는지 확인</div></div>
+<div class="gti2"><div class="tn">Console 탭</div><div class="td">console.log() 출력 확인, JS 에러 확인, JS 직접 실행</div></div>
+<div class="gti2"><div class="tn">Network 탭</div><div class="td">API 요청/응답 확인. 어떤 데이터가 오가는지 볼 수 있음</div></div>
+<div class="gti2"><div class="tn">Sources 탭</div><div class="td">코드 디버깅, breakpoint 설정</div></div>
+<div class="gti2"><div class="tn">Application 탭</div><div class="td">쿠키, localStorage, sessionStorage 확인/수정</div></div>
+</div></div>
+
+<div class="gc"><h3>💻 터미널 &amp; npm 명령어</h3>
+<div class="gcode"><span class="cc"># 프로젝트 시작</span>
+npx create-next-app@latest my-app   <span class="cc"># Next.js 프로젝트 생성</span>
+cd my-app
+npm run dev                          <span class="cc"># 개발 서버 시작 → localhost:3000</span>
+
+<span class="cc"># 패키지 관리</span>
+npm install                          <span class="cc"># package.json의 패키지 전부 설치</span>
+npm install @supabase/supabase-js    <span class="cc"># 특정 패키지 설치</span>
+npm install -D tailwindcss           <span class="cc"># 개발용 패키지</span>
+npm uninstall 패키지명               <span class="cc"># 제거</span>
+
+<span class="cc"># 빌드</span>
+npm run build   <span class="cc"># 배포용 빌드</span>
+npm run start   <span class="cc"># 빌드된 버전 실행</span>
+
+<span class="cc"># 폴더 이동</span>
+cd 폴더명     <span class="cc"># 이동</span>
+cd ..         <span class="cc"># 상위 폴더</span>
+ls            <span class="cc"># 파일 목록 (Mac/Linux)</span>
+dir           <span class="cc"># 파일 목록 (Windows)</span></div></div>
+
+<div class="gc"><h3>⌨️ VS Code 필수 단축키</h3>
+<div class="gtg">
+<div class="gti2"><div class="tn">Ctrl + S</div><div class="td">저장. 수시로 누르는 습관!</div></div>
+<div class="gti2"><div class="tn">Ctrl + Z</div><div class="td">실행 취소</div></div>
+<div class="gti2"><div class="tn">Ctrl + /</div><div class="td">선택 영역 주석 처리/해제</div></div>
+<div class="gti2"><div class="tn">Alt + ↑↓</div><div class="td">줄 위아래로 이동</div></div>
+<div class="gti2"><div class="tn">Ctrl + D</div><div class="td">같은 단어 다중 선택</div></div>
+<div class="gti2"><div class="tn">Ctrl + P</div><div class="td">파일 빠른 검색/열기</div></div>
+<div class="gti2"><div class="tn">Ctrl + Shift + P</div><div class="td">명령 팔레트 (포맷, 설정 등)</div></div>
+<div class="gti2"><div class="tn">F2</div><div class="td">변수/함수명 일괄 변경</div></div>
+</div></div>
+
+<div class="gdiv"></div>
+<div class="gch" id="ch19"><div class="gch-n">Chapter 19</div><h2>🗺️ 학습 로드맵</h2><p>어떤 순서로, 어떻게 공부할지 정리해요.</p></div>
+
+<div class="gc"><h3>📅 단계별 학습 계획</h3>
+<div class="gti"><div class="gdot">1</div><div><h4>HTML/CSS 기초 (2주)</h4><p>이 가이드 2~3챕터 + 코딩 실습 탭 레슨 1~9 완료. 간단한 정적 페이지 만들기</p></div></div>
+<div class="gti"><div class="gdot">2</div><div><h4>JavaScript 핵심 (3~4주)</h4><p>4~8챕터 + 실습. map/filter/fetch 익숙해지기. DOM 조작으로 동적 페이지 만들기</p></div></div>
+<div class="gti"><div class="gdot">3</div><div><h4>React + Next.js 입문 (3주)</h4><p>공식 튜토리얼 + 13~14챕터. 기존 코드를 읽고 이해하는 연습</p></div></div>
+<div class="gti"><div class="gdot">4</div><div><h4>Supabase + AI API 연동 (2주)</h4><p>간단한 CRUD 앱 만들기. 세특 생성 사이트 코드 읽고 분석하기</p></div></div>
+<div class="gti"><div class="gdot">5</div><div><h4>직접 사이트 만들기 (지속)</h4><p>내가 필요한 것 직접 기획하고 개발. 막히면 ChatGPT/Claude에게 물어보기</p></div></div>
+<div class="ghl">완벽히 이해하고 다음 단계로 가려 하지 말고, <strong>일단 만들어보면서</strong> 배우는 게 가장 빨라요! 에러는 배움의 재료예요.</div></div>
+
+<div class="gc"><h3>📖 핵심 개발 용어 사전</h3>
+<div class="gtg">
+<div class="gti2"><div class="tn">컴포넌트</div><div class="te">Component</div><div class="td">재사용 가능한 UI 조각. React의 기본 단위</div></div>
+<div class="gti2"><div class="tn">스테이트</div><div class="te">State</div><div class="td">화면에 반영되는 변수. 바뀌면 화면 자동 업데이트</div></div>
+<div class="gti2"><div class="tn">프롭스</div><div class="te">Props</div><div class="td">부모→자식 컴포넌트에 전달하는 데이터. 함수 매개변수 같은 것</div></div>
+<div class="gti2"><div class="tn">훅</div><div class="te">Hook</div><div class="td">React 특수 함수. useState, useEffect 등. 'use'로 시작</div></div>
+<div class="gti2"><div class="tn">렌더링</div><div class="te">Rendering</div><div class="td">컴포넌트가 화면에 그려지는 것. 상태 변경 시 재렌더링</div></div>
+<div class="gti2"><div class="tn">패치</div><div class="te">Fetch</div><div class="td">서버에 HTTP 요청으로 데이터 가져오는 함수</div></div>
+<div class="gti2"><div class="tn">라우팅</div><div class="te">Routing</div><div class="td">URL에 따라 다른 페이지를 보여주는 것</div></div>
+<div class="gti2"><div class="tn">미들웨어</div><div class="te">Middleware</div><div class="td">요청과 응답 사이에서 실행되는 코드. 인증 확인 등</div></div>
+<div class="gti2"><div class="tn">ORM</div><div class="te">ORM</div><div class="td">SQL 대신 JavaScript로 DB 다루게 해주는 도구 (Prisma 등)</div></div>
+<div class="gti2"><div class="tn">마이그레이션</div><div class="te">Migration</div><div class="td">DB 구조 변경을 코드로 관리하는 것</div></div>
+<div class="gti2"><div class="tn">디플로이</div><div class="te">Deploy</div><div class="td">코드를 실제 서버에 올려서 인터넷에서 접근 가능하게 하는 것</div></div>
+<div class="gti2"><div class="tn">빌드</div><div class="te">Build</div><div class="td">코드를 최적화·압축해서 배포용으로 만드는 과정</div></div>
+<div class="gti2"><div class="tn">디버깅</div><div class="te">Debugging</div><div class="td">버그(오류)를 찾아 고치는 작업</div></div>
+<div class="gti2"><div class="tn">리팩토링</div><div class="te">Refactoring</div><div class="td">기능은 그대로, 코드 구조를 더 깔끔하게 개선하는 것</div></div>
+<div class="gti2"><div class="tn">레거시</div><div class="te">Legacy</div><div class="td">오래되어 유지보수 어려운 코드/시스템</div></div>
+<div class="gti2"><div class="tn">스코프</div><div class="te">Scope</div><div class="td">변수가 어디서 접근 가능한지 범위</div></div>
+<div class="gti2"><div class="tn">클로저</div><div class="te">Closure</div><div class="td">함수가 자신이 만들어진 환경을 기억하는 것</div></div>
+<div class="gti2"><div class="tn">콜백</div><div class="te">Callback</div><div class="td">함수를 인자로 전달해서, 나중에 호출되게 하는 함수</div></div>
+</div></div>
+
+<div class="gfin">
+<div style="font-size:2.2rem;margin-bottom:10px">🎉</div>
+<h3 style="color:#7a5faf;margin-bottom:7px">19챕터 완료! 이제 내 코드를 읽을 수 있어요</h3>
+<p style="color:#8a80a0;font-size:.88rem">모르는 것이 생기면 언제든 Claude에게 물어보세요. 코딩은 외우는 게 아니라 찾아가며 하는 거예요!</p>
+</div>
+</div><!-- /gi -->
+</div><!-- /guide-main -->
+</div><!-- /#gs -->
+
+<!-- ══════════════ UI SECTION ══════════════ -->
+<div id="us" class="section">
+<nav class="toc">
+  <div class="toc-title">📚 목차</div>
+
+  <div class="toc-section">레이아웃</div>
+  <a href="#header">헤더 (Header)</a>
+  <a href="#footer">푸터 (Footer)</a>
+  <a href="#sidebar">사이드바</a>
+  <a href="#section">섹션 / 컨테이너</a>
+
+  <div class="toc-section">컴포넌트</div>
+  <a href="#card">카드 (Card)</a>
+  <a href="#button">버튼 (Button)</a>
+  <a href="#tab">탭 (Tab)</a>
+  <a href="#modal">모달 (Modal)</a>
+  <a href="#dropdown">드롭다운</a>
+  <a href="#toast">토스트 알림</a>
+  <a href="#badge">배지 (Badge)</a>
+  <a href="#toggle">토글 (Toggle)</a>
+  <a href="#accordion">아코디언</a>
+  <a href="#spinner">스피너</a>
+  <a href="#progress">진행바</a>
+
+  <div class="toc-section">입력 폼</div>
+  <a href="#input">인풋 (Input)</a>
+  <a href="#textarea">텍스트에어리어</a>
+  <a href="#checkbox">체크박스</a>
+  <a href="#radio">라디오 버튼</a>
+
+  <div class="toc-section">네비게이션</div>
+  <a href="#navbar">네비게이션 바</a>
+  <a href="#breadcrumb">브레드크럼</a>
+  <a href="#pagination">페이지네이션</a>
+  <a href="#hamburger">햄버거 메뉴</a>
+</nav>
+<main class="content">
+
+  <div class="page-title">
+    <h1>🎨 웹 UI 용어 가이드</h1>
+    <p>각 용어마다 실제로 어떻게 생겼는지 바로 볼 수 있어요</p>
+  </div>
+
+
+  <!-- ============ 레이아웃 ============ -->
+  <div id="layout-section">
+    <div class="chapter-title">
+      <h2>📐 레이아웃 — 페이지 구조</h2>
+    </div>
+
+    <div class="term-section" id="header">
+      <div class="term-name">헤더 <span class="term-en">Header</span></div>
+      <div class="term-desc">페이지 맨 위에 고정된 영역이에요. 로고, 사이트 이름, 메뉴(네비게이션)가 보통 여기 있어요. 사용자가 어느 페이지에 있든 항상 보여요.</div>
+      <div class="term-when">📍 어디서 봄? → 거의 모든 웹사이트 맨 위 (유튜브, 네이버, 학교 홈페이지 등)</div>
+
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div>
+          <div class="b-url">나의사이트.com</div>
+        </div>
+        <div class="browser-body" style="padding:0;">
+          <div style="background:#7c3aed; color:white; padding:14px 20px; display:flex; justify-content:space-between; align-items:center;">
+            <strong style="font-size:0.95rem;">🌸 우리 학교</strong>
+            <div style="display:flex; gap:20px; font-size:0.82rem;">
+              <span>학교소개</span>
+              <span>공지사항</span>
+              <span>로그인</span>
+            </div>
+          </div>
+          <div style="background:#f5f5ff; height:40px; display:flex; align-items:center; padding:0 20px; font-size:0.78rem; color:#aaa;">← 여기가 헤더! 항상 맨 위에 있어요</div>
+          <div style="height:40px; background:#faf8ff;"></div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="term-section" id="footer">
+      <div class="term-name">푸터 <span class="term-en">Footer</span></div>
+      <div class="term-desc">페이지 맨 아래 영역이에요. 저작권 표시, 이용약관, 연락처, 사이트맵 링크 등이 있어요. 보통 배경이 어두운 경우가 많아요.</div>
+      <div class="term-when">📍 어디서 봄? → 스크롤을 맨 아래로 내리면 나오는 부분</div>
+
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div>
+          <div class="b-url">나의사이트.com</div>
+        </div>
+        <div class="browser-body" style="padding:0;">
+          <div style="background:#faf8ff; height:40px;"></div>
+          <div style="background:#f5f5ff; height:30px; display:flex; align-items:center; padding:0 20px; font-size:0.78rem; color:#aaa;">↑ 메인 컨텐츠 영역</div>
+          <div style="background:#1e1b35; color:#9a90c8; padding:20px; font-size:0.8rem; display:flex; justify-content:space-between;">
+            <div>© 2026 우리 학교. All rights reserved.</div>
+            <div style="display:flex; gap:16px;"><span>이용약관</span><span>개인정보처리방침</span><span>문의하기</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="term-section" id="sidebar">
+      <div class="term-name">사이드바 <span class="term-en">Sidebar</span></div>
+      <div class="term-desc">페이지 왼쪽(또는 오른쪽)에 고정된 메뉴 패널이에요. 관리자 페이지, 대시보드에서 자주 볼 수 있어요. 현재 이 페이지의 왼쪽 목차도 사이드바예요!</div>
+      <div class="term-when">📍 어디서 봄? → 이 페이지 왼쪽 목차, Gmail 왼쪽 메뉴, 관리자 페이지</div>
+
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div>
+          <div class="b-url">나의사이트.com/admin</div>
+        </div>
+        <div class="browser-body" style="padding:0;">
+          <div style="display:flex; min-height:130px;">
+            <div style="width:110px; background:#1e1b35; padding:16px 12px; font-size:0.75rem;">
+              <div style="color:#c9a8e0; font-weight:700; margin-bottom:12px; font-size:0.7rem;">메뉴</div>
+              <div style="color:#9a90c8; padding:6px 8px; border-radius:6px; margin-bottom:4px;">🏠 홈</div>
+              <div style="color:white; background:#2d2845; padding:6px 8px; border-radius:6px; margin-bottom:4px;">👥 학생관리</div>
+              <div style="color:#9a90c8; padding:6px 8px; border-radius:6px; margin-bottom:4px;">📋 세특</div>
+              <div style="color:#9a90c8; padding:6px 8px; border-radius:6px;">⚙️ 설정</div>
+            </div>
+            <div style="flex:1; padding:20px; background:#faf8ff; font-size:0.82rem; color:#888;">← 사이드바 | 오른쪽이 메인 컨텐츠 →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="term-section" id="section">
+      <div class="term-name">섹션 / 컨테이너 <span class="term-en">Section / Container</span></div>
+      <div class="term-desc"><strong>섹션</strong>은 페이지를 의미 단위로 나눈 구역이에요. <strong>컨테이너</strong>는 내용을 감싸는 박스로, 보통 최대 너비를 정하고 가운데 정렬할 때 써요.</div>
+      <div class="term-when">📍 랜딩 페이지에서 "소개 섹션", "기능 섹션", "후기 섹션" 이렇게 나뉘는 것</div>
+
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div>
+          <div class="b-url">나의사이트.com</div>
+        </div>
+        <div class="browser-body" style="padding:0;">
+          <div style="background:#ede9fe; padding:24px; text-align:center; border-bottom:1px dashed #c4b5fd;">
+            <div style="font-size:0.75rem; color:#7c3aed; font-weight:700; margin-bottom:4px;">섹션 1 — 소개</div>
+            <div style="font-size:0.85rem; color:#5b21b6;">🌸 우리 학교에 오신 것을 환영합니다</div>
+          </div>
+          <div style="background:#f5f3ff; padding:24px; text-align:center; border-bottom:1px dashed #c4b5fd;">
+            <div style="font-size:0.75rem; color:#7c3aed; font-weight:700; margin-bottom:4px;">섹션 2 — 기능 소개</div>
+            <div style="display:flex; gap:12px; justify-content:center;">
+              <div style="background:white; border-radius:8px; padding:12px; font-size:0.78rem; color:#555; box-shadow:0 2px 8px rgba(0,0,0,0.08);">기능 1</div>
+              <div style="background:white; border-radius:8px; padding:12px; font-size:0.78rem; color:#555; box-shadow:0 2px 8px rgba(0,0,0,0.08);">기능 2</div>
+              <div style="background:white; border-radius:8px; padding:12px; font-size:0.78rem; color:#555; box-shadow:0 2px 8px rgba(0,0,0,0.08);">기능 3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ 컴포넌트 ============ -->
+  <div class="chapter-title" style="margin-top:48px;">
+    <h2>🃏 컴포넌트 — UI 조각들</h2>
+  </div>
+
+  <div class="term-section" id="card">
+    <div class="term-name">카드 <span class="term-en">Card</span></div>
+    <div class="term-desc">정보를 박스 형태로 묶은 UI 조각이에요. 보통 흰 배경 + 그림자(shadow) + 둥근 모서리가 특징이에요. 학생 정보, 상품 목록, 뉴스 기사 등을 카드로 표현해요.</div>
+    <div class="term-when">📍 어디서 봄? → 쇼핑몰 상품 목록, 인스타그램 게시물, 학생 정보 카드</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body" style="display:flex; gap:16px; flex-wrap:wrap;">
+        <div class="demo-card">
+          <div style="width:100%; height:80px; background:linear-gradient(135deg,#e9d5ff,#fce7f3); border-radius:8px; margin-bottom:12px; display:flex;align-items:center;justify-content:center;font-size:1.5rem;">🌸</div>
+          <h4>홍길동</h4>
+          <p>학번: 10101<br>1학년 1반 · 인문계열</p>
+          <div style="margin-top:12px;">
+            <span style="background:#f5f3ff;color:#7c3aed;font-size:0.72rem;padding:3px 10px;border-radius:20px;font-weight:600;">세특 완료</span>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div style="width:100%; height:80px; background:linear-gradient(135deg,#fce7f3,#e0f2fe); border-radius:8px; margin-bottom:12px; display:flex;align-items:center;justify-content:center;font-size:1.5rem;">📚</div>
+          <h4>김영희</h4>
+          <p>학번: 10201<br>1학년 2반 · 이과계열</p>
+          <div style="margin-top:12px;">
+            <span style="background:#fef3c7;color:#92400e;font-size:0.72rem;padding:3px 10px;border-radius:20px;font-weight:600;">작성중</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-block"><span class="c-cmt">&lt;!-- 카드 기본 구조 --&gt;</span>
+<span class="c-tag">&lt;div</span> style=<span class="c-val">"background:white; border-radius:12px; padding:20px; box-shadow:0 4px 16px rgba(0,0,0,0.1);"</span><span class="c-tag">&gt;</span>
+  <span class="c-tag">&lt;h4&gt;</span>홍길동<span class="c-tag">&lt;/h4&gt;</span>
+  <span class="c-tag">&lt;p&gt;</span>학번: 10101<span class="c-tag">&lt;/p&gt;</span>
+<span class="c-tag">&lt;/div&gt;</span></div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="button">
+    <div class="term-name">버튼 <span class="term-en">Button</span></div>
+    <div class="term-desc">클릭해서 동작을 실행하는 요소예요. 목적에 따라 여러 종류가 있어요. 가장 중요한 동작은 Primary(보라/파랑), 취소는 Secondary, 위험한 동작은 Danger(빨강)로 구분해요.</div>
+    <div class="term-when">📍 Primary = 메인 동작 | Secondary = 취소/보조 | Danger = 삭제 | Disabled = 비활성화</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body">
+        <div style="margin-bottom:16px;">
+          <div style="font-size:0.75rem; color:#888; margin-bottom:8px; font-weight:600;">기본 버튼 종류</div>
+          <div class="btn-group">
+            <button class="demo-btn btn-primary-demo">Primary</button>
+            <button class="demo-btn btn-secondary-demo">Secondary</button>
+            <button class="demo-btn btn-outline-demo">Outline</button>
+            <button class="demo-btn btn-danger-demo">Danger</button>
+            <button class="demo-btn btn-disabled-demo" disabled>Disabled</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem; color:#888; margin-bottom:8px; font-weight:600;">모양 변형</div>
+          <div class="btn-group">
+            <button class="demo-btn btn-primary-demo">사각형</button>
+            <button class="demo-btn btn-primary-demo" style="border-radius:100px;">알약형</button>
+            <button class="demo-btn btn-primary-demo" style="width:40px;height:40px;border-radius:50%;padding:0;">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="tab">
+    <div class="term-name">탭 <span class="term-en">Tab</span></div>
+    <div class="term-desc">클릭하면 아래 내용이 바뀌는 메뉴 버튼이에요. 브라우저의 탭과 같은 원리예요. 선택된 탭은 강조 표시(보통 색이나 밑줄)되고, 나머지는 흐릿하게 표시돼요.</div>
+    <div class="term-when">📍 어디서 봄? → "정보" "사진" "동영상" 탭, 설정 페이지의 카테고리 탭</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body">
+        <div class="demo-tabs">
+          <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab(this,'tab1')">📋 학생 정보</button>
+            <button class="tab-btn" onclick="switchTab(this,'tab2')">📝 세특 내역</button>
+            <button class="tab-btn" onclick="switchTab(this,'tab3')">📊 통계</button>
+          </div>
+          <div class="tab-content" id="tab1">홍길동 학생의 기본 정보가 여기 표시됩니다. 학번, 학년, 반, 계열 등.</div>
+          <div class="tab-content" id="tab2" style="display:none">1학기 세특 · 2학기 세특 내역이 여기 표시됩니다.</div>
+          <div class="tab-content" id="tab3" style="display:none">참여도, 점수 분포 등의 통계가 여기 표시됩니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="modal">
+    <div class="term-name">모달 <span class="term-en">Modal / Dialog</span></div>
+    <div class="term-desc">배경을 어둡게 흐리고 위에 뜨는 팝업 창이에요. 사용자가 중요한 결정을 해야 할 때 사용해요. 모달이 열려있는 동안은 배경의 다른 요소를 클릭할 수 없어요.</div>
+    <div class="term-when">📍 "정말 삭제하시겠습니까?" "로그인 해주세요" "사진 크게 보기" 등</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body" style="padding:0;">
+        <div class="demo-modal-container">
+          <div style="position:absolute; inset:0; background:#faf8ff; padding:16px; font-size:0.8rem; color:#ddd;">배경 컨텐츠 (흐릿하게 보임)</div>
+          <div class="modal-backdrop">
+            <div class="modal-box">
+              <h4>세특을 확정하시겠습니까?</h4>
+              <p>확정 후에는 수정이 어려울 수 있어요.</p>
+              <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary">취소</button>
+                <button class="modal-btn modal-btn-primary">확정</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="dropdown">
+    <div class="term-name">드롭다운 <span class="term-en">Dropdown / Select</span></div>
+    <div class="term-desc">클릭하면 목록이 아래로 펼쳐지는 선택 메뉴예요. 여러 옵션 중 하나를 고를 때 사용해요. 닫혔을 땐 선택된 항목만 보이고, 열리면 전체 목록이 보여요.</div>
+    <div class="term-when">📍 어디서 봄? → "계열 선택", "학년 선택", "언어 설정"</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body" style="display:flex; gap:40px; align-items:flex-start;">
+        <div>
+          <div style="font-size:0.75rem; color:#888; margin-bottom:8px; font-weight:600;">닫힌 상태</div>
+          <div class="dropdown-trigger">계열을 선택하세요 <span>▼</span></div>
+        </div>
+        <div>
+          <div style="font-size:0.75rem; color:#888; margin-bottom:8px; font-weight:600;">열린 상태</div>
+          <div class="dropdown-trigger" style="border-color:#7c3aed;">인문계열 <span>▲</span></div>
+          <div class="dropdown-menu">
+            <div class="dropdown-item selected">인문계열 ✓</div>
+            <div class="dropdown-item">이과계열</div>
+            <div class="dropdown-item">예술계열</div>
+            <div class="dropdown-item">체육계열</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="toast">
+    <div class="term-name">토스트 알림 <span class="term-en">Toast Notification</span></div>
+    <div class="term-desc">화면 구석에 잠깐 떴다가 자동으로 사라지는 알림이에요. 작업이 완료됐음을 알려줄 때 사용해요. 빵(토스트)이 튀어오르는 것처럼 나타난다고 해서 토스트라고 불러요.</div>
+    <div class="term-when">📍 "저장되었습니다" "복사완료" "오류가 발생했습니다" 등 짧은 알림</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body" style="position:relative; min-height:120px; background:#faf8ff;">
+        <div style="padding:16px; font-size:0.82rem; color:#aaa;">배경 컨텐츠</div>
+        <div class="toast" style="bottom:16px; right:16px;">
+          <span class="toast-icon">✅</span> 세특이 저장되었습니다!
+        </div>
+        <div class="toast" style="bottom:60px; right:16px; background:#ef4444;">
+          <span class="toast-icon">❌</span> 오류가 발생했어요
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="badge">
+    <div class="term-name">배지 <span class="term-en">Badge</span></div>
+    <div class="term-desc">숫자나 상태를 나타내는 작은 원형/타원형 표시예요. 읽지 않은 메시지 수, 알림 수, 상태 라벨 등에 사용해요.</div>
+    <div class="term-when">📍 어디서 봄? → 카카오톡 안 읽은 메시지 숫자, 상품의 "NEW" "SALE" 라벨</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body" style="display:flex; gap:32px; align-items:center; flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-size:0.75rem; color:#888; margin-bottom:8px;">숫자 배지</div>
+          <span style="font-size:0.9rem;">🔔 알림<span class="badge">3</span></span>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.75rem; color:#888; margin-bottom:8px;">상태 배지</div>
+          <div style="display:flex; gap:6px;">
+            <span style="background:#dcfce7;color:#166534;font-size:0.75rem;padding:3px 10px;border-radius:20px;font-weight:600;">완료</span>
+            <span style="background:#fef9c3;color:#854d0e;font-size:0.75rem;padding:3px 10px;border-radius:20px;font-weight:600;">진행중</span>
+            <span style="background:#fee2e2;color:#991b1b;font-size:0.75rem;padding:3px 10px;border-radius:20px;font-weight:600;">미완료</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="toggle">
+    <div class="term-name">토글 스위치 <span class="term-en">Toggle Switch</span></div>
+    <div class="term-desc">ON/OFF 두 가지 상태를 전환하는 스위치예요. 핸드폰 설정에서 와이파이 켜기/끄기 같은 스위치가 바로 토글이에요.</div>
+    <div class="term-when">📍 어디서 봄? → 핸드폰 설정, 사이트 다크모드 전환, 알림 설정</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; max-width:280px;">
+            <span style="font-size:0.85rem; color:#374151;">🌙 다크모드</span>
+            <div class="toggle-switch toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; max-width:280px;">
+            <span style="font-size:0.85rem; color:#374151;">🔔 알림 받기</span>
+            <div class="toggle-switch toggle-off"><div class="toggle-knob"></div></div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; max-width:280px;">
+            <span style="font-size:0.85rem; color:#374151;">📧 이메일 수신</span>
+            <div class="toggle-switch toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="accordion">
+    <div class="term-name">아코디언 <span class="term-en">Accordion</span></div>
+    <div class="term-desc">클릭하면 내용이 펼쳐지고, 다시 클릭하면 접히는 컴포넌트예요. 악기 아코디언처럼 늘었다 줄었다 해서 붙여진 이름이에요. FAQ 목록에서 많이 써요.</div>
+    <div class="term-when">📍 어디서 봄? → "자주 묻는 질문(FAQ)" 페이지, 약관 세부내용</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body">
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>세특은 언제 확정되나요?</span>
+            <span>▲</span>
+          </div>
+          <div class="accordion-body">
+            세특은 학기말에 담임교사가 최종 확정합니다. 확정 후에는 수정이 제한될 수 있으니 사전에 충분히 검토해주세요.
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>비밀번호를 잊었어요</span>
+            <span>▼</span>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header">
+            <span>AI가 작성한 내용을 수정할 수 있나요?</span>
+            <span>▼</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="spinner">
+    <div class="term-name">스피너 / 로더 <span class="term-en">Spinner / Loader</span></div>
+    <div class="term-desc">데이터를 불러오거나 처리 중일 때 사용자에게 "잠깐 기다려주세요"를 보여주는 애니메이션이에요. 빙글빙글 돌거나 진행바 형태로 표시해요.</div>
+    <div class="term-when">📍 어디서 봄? → AI가 세특 생성하는 동안, 페이지 로딩 중</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body" style="display:flex; gap:40px; align-items:center;">
+        <div style="text-align:center;">
+          <div class="spinner"></div>
+          <div style="font-size:0.75rem; color:#888; margin-top:8px;">원형 스피너</div>
+        </div>
+        <div style="width:200px;">
+          <div style="font-size:0.78rem; color:#555; margin-bottom:6px;">AI 세특 생성 중... 74%</div>
+          <div class="progress-bar-demo">
+            <div class="progress-fill" style="width:74%;"></div>
+          </div>
+          <div style="font-size:0.75rem; color:#888; margin-top:4px;">진행바(Progress Bar)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="progress">
+    <div class="term-name">진행바 <span class="term-en">Progress Bar</span></div>
+    <div class="term-desc">작업이 얼마나 진행됐는지 시각적으로 보여주는 막대그래프예요. 파일 업로드, 설문 단계, AI 생성 진행 등에 사용해요.</div>
+    <div class="term-when">📍 "1/5단계 완료", "업로드 80%" 같은 진행 상황 표시</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body">
+        <div style="margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.78rem; color:#555; margin-bottom:4px;"><span>설문 완료</span><span>30%</span></div>
+          <div class="progress-bar-demo"><div class="progress-fill" style="width:30%;"></div></div>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.78rem; color:#555; margin-bottom:4px;"><span>세특 생성</span><span>74%</span></div>
+          <div class="progress-bar-demo"><div class="progress-fill" style="width:74%;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; font-size:0.78rem; color:#555; margin-bottom:4px;"><span>최종 확정</span><span>100%</span></div>
+          <div class="progress-bar-demo"><div class="progress-fill" style="width:100%; background:linear-gradient(90deg,#059669,#10b981);"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ 입력 폼 ============ -->
+  <div class="chapter-title" style="margin-top:48px;">
+    <h2>📝 입력 폼 — Form Elements</h2>
+  </div>
+
+  <div class="term-section" id="input">
+    <div class="term-name">인풋 <span class="term-en">Input Field</span></div>
+    <div class="term-desc">한 줄 텍스트를 입력하는 칸이에요. 이름, 학번, 비밀번호 입력에 사용해요. 상태마다 다르게 보여요: 기본/포커스(선택됨)/에러.</div>
+    <div class="term-when">📍 placeholder = 입력 전 안내 문구 | label = 입력칸 설명</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body" style="display:flex; gap:32px; flex-wrap:wrap;">
+        <div>
+          <span class="input-label">기본 상태</span>
+          <input class="demo-input" placeholder="이름을 입력하세요">
+        </div>
+        <div>
+          <span class="input-label">포커스 상태 (클릭했을 때)</span>
+          <input class="demo-input focused" value="홍길동">
+        </div>
+        <div>
+          <span class="input-label">에러 상태</span>
+          <input class="demo-input error" value="abc">
+          <div class="input-error">⚠ 학번 형식이 올바르지 않아요</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="textarea">
+    <div class="term-name">텍스트에어리어 <span class="term-en">Textarea</span></div>
+    <div class="term-desc">여러 줄의 텍스트를 입력할 수 있는 큰 입력칸이에요. 세특 내용, 자기소개서, 게시글 작성 등 긴 글을 입력할 때 사용해요. 오른쪽 아래 모서리를 드래그해서 크기를 조절할 수 있어요.</div>
+    <div class="term-when">📍 input(한 줄) vs textarea(여러 줄)</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body">
+        <span class="input-label">세특 내용 작성</span>
+        <textarea style="width:100%; border:1.5px solid #d1d5db; border-radius:8px; padding:10px 14px; font-size:0.85rem; font-family:sans-serif; height:90px; resize:vertical; outline:none; color:#374151;">본 학생은 현장체험학습 활동에서 적극적으로 참여하였으며, 주어진 과제를 성실히 수행하였다. 특히 조별 활동에서 리더십을 발휘하여...</textarea>
+        <div style="font-size:0.75rem; color:#888; margin-top:4px; text-align:right;">215자 / 500자</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="checkbox">
+    <div class="term-name">체크박스 <span class="term-en">Checkbox</span></div>
+    <div class="term-desc">여러 개 중에서 복수로 선택할 수 있는 네모 체크 버튼이에요. 체크(✓)된 것과 안 된 것을 함께 가질 수 있어요.</div>
+    <div class="term-when">📍 체크박스 = 여러 개 동시 선택 가능 | 라디오 버튼 = 하나만 선택</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body">
+        <div style="font-size:0.82rem; font-weight:600; color:#374151; margin-bottom:10px;">참여한 활동을 모두 선택하세요</div>
+        <div class="form-row"><input type="checkbox" checked> 조별 토론 활동</div>
+        <div class="form-row"><input type="checkbox" checked> 현장 탐방 활동</div>
+        <div class="form-row"><input type="checkbox"> 발표 활동</div>
+        <div class="form-row"><input type="checkbox"> 보고서 작성</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="radio">
+    <div class="term-name">라디오 버튼 <span class="term-en">Radio Button</span></div>
+    <div class="term-desc">여러 개 중에서 딱 하나만 선택할 수 있는 동그란 버튼이에요. 하나를 선택하면 이전에 선택된 것이 자동으로 해제돼요.</div>
+    <div class="term-when">📍 어디서 봄? → "성별 선택", "계열 선택", "난이도 선택"</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body">
+        <div style="font-size:0.82rem; font-weight:600; color:#374151; margin-bottom:10px;">계열을 선택하세요 (하나만)</div>
+        <div class="form-row"><input type="radio" name="dept" checked> 인문계열</div>
+        <div class="form-row"><input type="radio" name="dept"> 이과계열</div>
+        <div class="form-row"><input type="radio" name="dept"> 예술계열</div>
+        <div class="form-row"><input type="radio" name="dept"> 체육계열</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============ 네비게이션 ============ -->
+  <div class="chapter-title" style="margin-top:48px;">
+    <h2>🧭 네비게이션 — Navigation</h2>
+  </div>
+
+  <div class="term-section" id="navbar">
+    <div class="term-name">네비게이션 바 <span class="term-en">Navbar</span></div>
+    <div class="term-desc">페이지 이동을 위한 메뉴 모음이에요. 보통 헤더 안에 있어요. 현재 페이지의 메뉴는 색이나 굵기로 강조 표시돼요. 모바일에서는 햄버거 메뉴로 숨겨지기도 해요.</div>
+    <div class="term-when">📍 어디서 봄? → 거의 모든 웹사이트 상단 메뉴</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">나의사이트.com/teacher</div></div>
+      <div class="browser-body" style="padding:0;">
+        <div class="demo-navbar">
+          <div class="nav-logo">🌸 현장체험학습</div>
+          <div class="nav-links">
+            <a class="nav-link" href="#">홈</a>
+            <a class="nav-link active-link" href="#">교사 메뉴</a>
+            <a class="nav-link" href="#">학생 조회</a>
+            <a class="nav-link" href="#">로그아웃</a>
+          </div>
+        </div>
+        <div style="padding:20px; font-size:0.82rem; color:#aaa;">← '교사 메뉴'가 현재 페이지라 강조 표시돼요</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="breadcrumb">
+    <div class="term-name">브레드크럼 <span class="term-en">Breadcrumb</span></div>
+    <div class="term-desc">지금 내가 어디 있는지 경로를 보여주는 내비게이션이에요. "홈 > 교사 메뉴 > 세특 관리" 처럼 표시해요. 헨젤과 그레텔의 빵가루(breadcrumb)처럼 길을 안내한다고 해서 붙여진 이름이에요.</div>
+    <div class="term-when">📍 어디서 봄? → 쇼핑몰 "홈 > 여성의류 > 원피스" 같은 경로 표시</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">나의사이트.com/teacher/scope</div></div>
+      <div class="browser-body">
+        <div class="breadcrumb">
+          <a href="#">🏠 홈</a>
+          <span>›</span>
+          <a href="#">교사 메뉴</a>
+          <span>›</span>
+          <a href="#">세특 관리</a>
+          <span>›</span>
+          <span class="current">세특 생성</span>
+        </div>
+        <div style="margin-top:12px; font-size:0.78rem; color:#aaa;">↑ 현재 위치: 세특 생성 페이지</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="pagination">
+    <div class="term-name">페이지네이션 <span class="term-en">Pagination</span></div>
+    <div class="term-desc">긴 목록을 페이지로 나눠서 보여주는 UI예요. 1, 2, 3 페이지 번호가 있고, 이전/다음 버튼이 있어요. 한 번에 너무 많은 데이터를 보여주면 느려지기 때문에 사용해요.</div>
+    <div class="term-when">📍 어디서 봄? → 학교 공지사항 목록, 쇼핑몰 상품 목록</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">예시</div></div>
+      <div class="browser-body">
+        <div style="margin-bottom:12px; font-size:0.82rem; color:#555;">학생 목록 (전체 127명)</div>
+        <div style="border:1px solid #e5e7eb; border-radius:8px; overflow:hidden; margin-bottom:16px;">
+          <div style="padding:10px 16px; border-bottom:1px solid #e5e7eb; font-size:0.82rem; color:#374151; display:flex; justify-content:space-between;"><span>홍길동</span><span style="color:#888;">10101</span></div>
+          <div style="padding:10px 16px; border-bottom:1px solid #e5e7eb; font-size:0.82rem; color:#374151; display:flex; justify-content:space-between;"><span>김영희</span><span style="color:#888;">10201</span></div>
+          <div style="padding:10px 16px; font-size:0.82rem; color:#374151; display:flex; justify-content:space-between;"><span>이철수</span><span style="color:#888;">10301</span></div>
+        </div>
+        <div style="display:flex; justify-content:center;">
+          <div class="pagination">
+            <div class="page-num">‹</div>
+            <div class="page-num">1</div>
+            <div class="page-num active-page">2</div>
+            <div class="page-num">3</div>
+            <div class="page-num">4</div>
+            <div class="page-num">5</div>
+            <div class="page-num">›</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="term-section" id="hamburger">
+    <div class="term-name">햄버거 메뉴 <span class="term-en">Hamburger Menu</span></div>
+    <div class="term-desc">≡ 모양의 버튼으로, 클릭하면 숨겨진 사이드 메뉴가 열려요. 화면이 좁은 모바일에서 네비게이션 메뉴를 숨길 때 사용해요. 세 줄이 햄버거처럼 생겼다고 해서 붙여진 이름이에요.</div>
+    <div class="term-when">📍 어디서 봄? → 모바일에서 상단 오른쪽 ≡ 버튼, 핸드폰으로 사이트 볼 때</div>
+
+    <div class="browser">
+      <div class="browser-bar"><div class="b-dot b-r"></div><div class="b-dot b-y"></div><div class="b-dot b-g"></div><div class="b-url">모바일 화면</div></div>
+      <div class="browser-body" style="padding:0; display:flex; gap:20px;">
+        <div style="flex:1;">
+          <div style="font-size:0.72rem; text-align:center; color:#888; padding:6px; background:#f9f9f9;">닫힌 상태</div>
+          <div style="background:white; border-bottom:1px solid #e5e7eb; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; color:#7c3aed; font-size:0.85rem;">🌸 학교</span>
+            <div class="hamburger"><div class="ham-line"></div><div class="ham-line"></div><div class="ham-line"></div></div>
+          </div>
+          <div style="padding:20px; font-size:0.78rem; color:#aaa; text-align:center;">메뉴가 숨겨진 상태</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:0.72rem; text-align:center; color:#888; padding:6px; background:#f9f9f9;">열린 상태 (클릭 후)</div>
+          <div style="background:white; border-bottom:1px solid #e5e7eb; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; color:#7c3aed; font-size:0.85rem;">🌸 학교</span>
+            <span style="font-size:1.1rem; color:#374151; cursor:pointer;">✕</span>
+          </div>
+          <div style="background:#faf8ff; border-right:1px solid #e5e7eb;">
+            <div style="padding:12px 20px; font-size:0.83rem; color:#7c3aed; font-weight:600; border-bottom:1px solid #e5e7eb;">🏠 홈</div>
+            <div style="padding:12px 20px; font-size:0.83rem; color:#374151; border-bottom:1px solid #e5e7eb;">👩‍🏫 교사 메뉴</div>
+            <div style="padding:12px 20px; font-size:0.83rem; color:#374151; border-bottom:1px solid #e5e7eb;">👧 학생 조회</div>
+            <div style="padding:12px 20px; font-size:0.83rem; color:#374151;">🚪 로그아웃</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; padding:40px; background:linear-gradient(135deg,#f5eeff,#e8f5ff); border-radius:20px; margin-top:40px; margin-bottom:40px;">
+    <div style="font-size:2.5rem; margin-bottom:12px;">🎉</div>
+    <h3 style="color:#7a5faf; margin-bottom:8px;">UI 용어 마스터!</h3>
+    <p style="color:#8a80a0; font-size:0.9rem;">이제 디자이너나 개발자 얘기를 들어도 이해할 수 있어요.<br>모르는 용어가 생기면 언제든 물어보세요!</p>
+  </div>
+
+</main>
+</div><!-- /#us -->
+
+<!-- ══════════════ PRACTICE SECTION ══════════════ -->
+<div id="ps" class="section">
+
+<div class="lesson-bar">
+  <span class="lesson-bar-title">📚 레슨</span>
+  <button class="lesson-btn active" onclick="loadLesson(0)">1. 태그란?</button>
+  <button class="lesson-btn" onclick="loadLesson(1)">2. 태그 종류</button>
+  <button class="lesson-btn" onclick="loadLesson(2)">3. 여러 태그</button>
+  <button class="lesson-btn" onclick="loadLesson(3)">4. 태그 중첩</button>
+  <button class="lesson-btn" onclick="loadLesson(4)">5. 속성</button>
+  <button class="lesson-btn" onclick="loadLesson(5)">6. CSS 스타일</button>
+  <button class="lesson-btn" onclick="loadLesson(6)">7. 버튼 만들기</button>
+  <button class="lesson-btn" onclick="loadLesson(7)">8. 클릭 이벤트</button>
+  <button class="lesson-btn" onclick="loadLesson(8)">9. 카드 만들기</button>
+  <button class="lesson-btn" onclick="loadLesson(9)">🎯 자유 실습</button>
+</div>
+
+<div class="main">
+  <div class="left-panel">
+    <div class="lesson-info" id="lessonInfo"></div>
+    <div class="editor-header">
+      <span class="editor-label">✏️ 여기에 코드를 입력하세요</span>
+      <div class="editor-buttons">
+        <button class="btn-hint" onclick="toggleHint()">💡 힌트</button>
+        <button class="btn-answer" onclick="showAnswer()">✅ 정답</button>
+        <button class="btn-reset" onclick="resetLesson()">🔄 초기화</button>
+      </div>
+    </div>
+    <div class="hint-popup" id="hintPopup"></div>
+    <div class="code-editor">
+      <div class="line-numbers" id="lineNumbers">1</div>
+      <textarea id="codeEditor" spellcheck="false" oninput="onCodeChange()" onkeydown="handleTab(event)"></textarea>
+    </div>
+  </div>
+  <div class="right-panel">
+    <div class="preview-header">
+      <div style="display:flex;gap:5px"><div style="width:10px;height:10px;border-radius:50%;background:#ff5f57"></div><div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e"></div><div style="width:10px;height:10px;border-radius:50%;background:#28c840"></div></div>
+      <div style="background:#fff;border-radius:5px;padding:3px 11px;font-size:.72rem;color:#888;flex:1;margin-left:7px;">미리보기 화면</div>
+    </div>
+    <div class="preview-label">👁️ 결과 화면 — 코드를 수정하면 바로 바뀌어요!</div>
+    <iframe id="preview"></iframe>
+  </div>
+</div>
+
+<div class="status-bar">
+  <span id="statusLesson">레슨 1 / 10</span>
+  <span>💡 코드를 직접 수정하면 오른쪽 화면이 바로 바뀌어요</span>
+  <span>Tab키 = 들여쓰기</span>
+</div>
+
+</div><!-- /#ps -->
+
+</div><!-- /.app -->
+
+<script>
+// ══ SECTION SWITCHER ══
+function showSec(s, btn) {
+  document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  const map = {g:'gs', u:'us', p:'ps'};
+  document.getElementById(map[s]).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══ UI GUIDE JS ══
+
+function switchTab(btn, tabId) {
+  const container = btn.closest('.demo-tabs');
+  container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  container.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+  btn.classList.add('active');
+  document.getElementById(tabId).style.display = 'block';
+}
+
+
+// ══ PRACTICE JS ══
+const lessons = [
+  {
+    step: "레슨 1",
+    title: "🏷️ HTML 태그란 무엇인가?",
+    concept: `HTML은 꺾쇠괄호 <code>&lt; &gt;</code>로 감싼 <strong style="color:#f5c8a8">태그(tag)</strong>로 구성돼요.<br><br>
+<strong>태그의 규칙:</strong><br>
+• <code>&lt;태그이름&gt;</code> → 여는 태그 (열기)<br>
+• <code>&lt;/태그이름&gt;</code> → 닫는 태그 (닫기, /가 붙어요)<br>
+• 두 태그 사이에 내용을 씁니다<br><br>
+<code>&lt;h1&gt;</code> 안녕하세요 <code>&lt;/h1&gt;</code><br>
+→ h1은 가장 큰 제목 태그예요.`,
+    task: `<strong>과제:</strong> 오른쪽 결과를 보면서, h1 태그 안의 텍스트를 <strong>"나는 선생님입니다"</strong>로 바꿔보세요.<br><br>
+힌트: <code>&lt;h1&gt;</code>과 <code>&lt;/h1&gt;</code> 사이의 텍스트만 바꾸면 돼요.`,
+    hint: `<code>&lt;h1&gt;</code> 과 <code>&lt;/h1&gt;</code> 사이의 <strong>"안녕하세요"</strong>를 지우고 <strong>"나는 선생님입니다"</strong>를 입력하세요.<br>
+열기/닫기 태그 자체는 건드리지 않아도 돼요!`,
+    starter: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>안녕하세요</h1>
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>나는 선생님입니다</h1>
+
+</body>
+</html>`
+  },
+
+  {
+    step: "레슨 2",
+    title: "🔤 다양한 태그 종류",
+    concept: `HTML에는 역할마다 다른 태그가 있어요:<br><br>
+• <code>&lt;h1&gt;</code> ~ <code>&lt;h6&gt;</code> : 제목 (숫자가 클수록 작아짐)<br>
+• <code>&lt;p&gt;</code> : 일반 문단 텍스트<br>
+• <code>&lt;button&gt;</code> : 버튼<br>
+• <code>&lt;strong&gt;</code> : <strong>굵은 글씨</strong><br>
+• <code>&lt;em&gt;</code> : <em>기울어진 글씨</em><br>
+• <code>&lt;br&gt;</code> : 줄바꿈 (닫는 태그 없음!)`,
+    task: `<strong>과제 1:</strong> h1을 h3으로 바꿔서 제목 크기가 작아지는 걸 확인하세요.<br><br>
+<strong>과제 2:</strong> &lt;p&gt; 태그 안에 여러분의 학교 이름을 써보세요.<br><br>
+<strong>과제 3:</strong> &lt;strong&gt; 태그로 중요한 단어를 굵게 만들어보세요.`,
+    hint: `<code>&lt;h1&gt;</code>의 숫자만 바꾸면 돼요: <code>&lt;h3&gt;</code>제목<code>&lt;/h3&gt;</code><br>
+h1이 제일 크고 h6이 제일 작아요. 직접 숫자를 바꿔보세요!`,
+    starter: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>제목입니다</h1>
+
+  <p>이것은 일반 문장이에요.</p>
+
+  <p>이 단어는 <strong>중요해요</strong>.</p>
+
+  <button>클릭하세요</button>
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h3>제목입니다</h3>
+
+  <p>이것은 혜화여자고등학교입니다.</p>
+
+  <p>이 단어는 <strong>매우 중요해요</strong>.</p>
+
+  <button>클릭하세요</button>
+
+</body>
+</html>`
+  },
+
+  {
+    step: "레슨 3",
+    title: "📄 여러 태그 함께 쓰기",
+    concept: `HTML 페이지에는 태그를 여러 개 써도 돼요.<br>
+위에서 아래로 순서대로 화면에 표시됩니다.<br><br>
+<code>&lt;hr&gt;</code> 태그는 수평선(구분선)을 그어줘요. 닫는 태그 없이 혼자 씁니다.<br><br>
+<strong>주의:</strong> 들여쓰기(스페이스, 탭)는 화면에 영향을 주지 않아요.<br>
+코드를 읽기 쉽게 정리할 때만 쓰는 거예요.`,
+    task: `<strong>과제:</strong> 오른쪽 코드에 내용을 추가해보세요.<br><br>
+1. h2 태그로 <strong>"오늘의 할 일"</strong>이라는 제목을 추가하세요<br>
+2. &lt;hr&gt; 구분선을 추가하세요<br>
+3. p 태그로 할 일 3가지를 각각 써보세요`,
+    hint: `<code>&lt;h2&gt;</code>오늘의 할 일<code>&lt;/h2&gt;</code><br>
+<code>&lt;hr&gt;</code><br>
+<code>&lt;p&gt;</code>1. 수업 준비<code>&lt;/p&gt;</code>`,
+    starter: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>나의 메모장</h1>
+
+  <!-- 여기 아래에 코드를 추가해보세요 -->
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>나의 메모장</h1>
+
+  <h2>오늘의 할 일</h2>
+  <hr>
+  <p>1. 수업 준비하기</p>
+  <p>2. 출석 확인하기</p>
+  <p>3. 과제 채점하기</p>
+
+</body>
+</html>`
+  },
+
+  {
+    step: "레슨 4",
+    title: "🪆 태그 안에 태그 (중첩)",
+    concept: `태그 안에 다른 태그를 넣을 수 있어요. 이걸 <strong style="color:#f5c8a8">중첩(nesting)</strong>이라고 해요.<br><br>
+<code>&lt;div&gt;</code> 태그는 여러 내용을 묶는 상자 역할이에요 (화면에는 안 보여요).<br>
+<code>&lt;ul&gt;</code> = 점 목록, <code>&lt;li&gt;</code> = 목록 아이템<br><br>
+<strong>⚠️ 중요한 규칙:</strong><br>
+나중에 연 태그를 먼저 닫아야 해요!<br>
+<code>&lt;ul&gt;&lt;li&gt;</code>내용<code>&lt;/li&gt;&lt;/ul&gt;</code> ✅<br>
+<code>&lt;ul&gt;&lt;li&gt;</code>내용<code>&lt;/ul&gt;&lt;/li&gt;</code> ❌`,
+    task: `<strong>과제:</strong> ul과 li를 사용해서 학생 목록을 만들어보세요.<br><br>
+1. &lt;ul&gt; 태그를 열고<br>
+2. 안에 &lt;li&gt; 태그로 학생 이름 3명을 써보세요<br>
+3. &lt;ul&gt; 태그를 닫으세요`,
+    hint: `<code>&lt;ul&gt;</code><br>
+&nbsp;&nbsp;<code>&lt;li&gt;</code>홍길동<code>&lt;/li&gt;</code><br>
+&nbsp;&nbsp;<code>&lt;li&gt;</code>김영희<code>&lt;/li&gt;</code><br>
+<code>&lt;/ul&gt;</code><br><br>
+li가 ul 안에 들어가야 해요.`,
+    starter: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h2>우리 반 학생 목록</h2>
+
+  <!-- ul 태그 안에 li로 이름을 써보세요 -->
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h2>우리 반 학생 목록</h2>
+
+  <ul>
+    <li>홍길동</li>
+    <li>김영희</li>
+    <li>이철수</li>
+  </ul>
+
+</body>
+</html>`
+  },
+
+  {
+    step: "레슨 5",
+    title: "⚙️ 속성(Attribute)이란?",
+    concept: `태그에 <strong style="color:#f5c8a8">추가 정보</strong>를 줄 수 있어요. 이걸 <strong>속성(attribute)</strong>이라고 해요.<br><br>
+여는 태그 안에 씁니다:<br>
+<code>&lt;태그이름 속성이름="값"&gt;</code><br><br>
+자주 쓰는 속성:<br>
+• <code>&lt;img src="이미지주소"&gt;</code> → 이미지 표시<br>
+• <code>&lt;a href="주소"&gt;</code>링크<code>&lt;/a&gt;</code> → 클릭하면 이동<br>
+• <code>&lt;input type="text"&gt;</code> → 텍스트 입력칸<br>
+• <code>&lt;input type="checkbox"&gt;</code> → 체크박스`,
+    task: `<strong>과제 1:</strong> a 태그의 href를 <strong>"https://www.google.com"</strong>으로 바꿔보세요.<br>
+(클릭하면 구글로 이동해요)<br><br>
+<strong>과제 2:</strong> input의 placeholder 속성을 <strong>"학번을 입력하세요"</strong>로 바꿔보세요.<br><br>
+<strong>과제 3:</strong> 체크박스를 하나 더 추가해보세요.`,
+    hint: `<code>&lt;a href="https://www.google.com"&gt;</code>구글<code>&lt;/a&gt;</code><br><br>
+<code>&lt;input type="text" placeholder="학번을 입력하세요"&gt;</code>`,
+    starter: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h2>속성 연습</h2>
+
+  <p><a href="#">링크를 클릭하세요</a></p>
+
+  <p>이름: <input type="text" placeholder="이름 입력"></p>
+
+  <p>
+    <input type="checkbox"> 국어
+    <input type="checkbox"> 수학
+    <input type="checkbox"> 영어
+  </p>
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h2>속성 연습</h2>
+
+  <p><a href="https://www.google.com">구글로 이동</a></p>
+
+  <p>학번: <input type="text" placeholder="학번을 입력하세요"></p>
+
+  <p>
+    <input type="checkbox"> 국어
+    <input type="checkbox"> 수학
+    <input type="checkbox"> 영어
+    <input type="checkbox"> 과학
+  </p>
+
+</body>
+</html>`
+  },
+
+  {
+    step: "레슨 6",
+    title: "🎨 CSS로 스타일 입히기",
+    concept: `<code>style=""</code> 속성으로 태그에 직접 스타일을 줄 수 있어요.<br><br>
+<code>&lt;h1 style="color: red;"&gt;</code>빨간 제목<code>&lt;/h1&gt;</code><br><br>
+자주 쓰는 CSS 속성:<br>
+• <code>color: 색;</code> → 글자 색<br>
+• <code>background-color: 색;</code> → 배경 색<br>
+• <code>font-size: 20px;</code> → 글자 크기<br>
+• <code>text-align: center;</code> → 가운데 정렬<br>
+• <code>padding: 10px;</code> → 안쪽 여백<br>
+• <code>border-radius: 10px;</code> → 모서리 둥글게<br><br>
+색 이름: <code>red</code>, <code>blue</code>, <code>pink</code>, <code>purple</code>, <code>#ff99cc</code>`,
+    task: `<strong>과제 1:</strong> h1의 color를 <strong>purple</strong>로 바꿔보세요.<br><br>
+<strong>과제 2:</strong> div의 background-color를 <strong>#ffe0f0</strong>(연분홍)으로 바꿔보세요.<br><br>
+<strong>과제 3:</strong> p 태그의 font-size를 <strong>20px</strong>로 키워보세요.`,
+    hint: `<code>style="color: purple;"</code><br>
+<code>style="background-color: #ffe0f0; padding: 20px;"</code><br><br>
+style 속성 안에 <strong>CSS속성: 값;</strong> 형식으로 써요.<br>
+여러 개를 쓸 땐 세미콜론(;)으로 구분해요.`,
+    starter: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h1 style="color: black;">
+    스타일 연습
+  </h1>
+
+  <div style="background-color: white; padding: 20px;">
+
+    <p style="font-size: 14px;">
+      이 텍스트의 크기를 바꿔보세요.
+    </p>
+
+    <p style="text-align: left;">
+      이 텍스트를 가운데 정렬해보세요.
+    </p>
+
+  </div>
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body>
+
+  <h1 style="color: purple;">
+    스타일 연습
+  </h1>
+
+  <div style="background-color: #ffe0f0; padding: 20px;">
+
+    <p style="font-size: 20px;">
+      이 텍스트의 크기를 바꿔보세요.
+    </p>
+
+    <p style="text-align: center;">
+      이 텍스트를 가운데 정렬해보세요.
+    </p>
+
+  </div>
+
+</body>
+</html>`
+  },
+
+  {
+    step: "레슨 7",
+    title: "🔘 예쁜 버튼 만들기",
+    concept: `지금까지 배운 걸 합쳐서 버튼을 예쁘게 만들어봐요!<br><br>
+버튼 스타일에 자주 쓰는 CSS:<br>
+• <code>background-color</code> → 배경색<br>
+• <code>color</code> → 글자색<br>
+• <code>border: none;</code> → 테두리 없애기<br>
+• <code>border-radius: 20px;</code> → 알약처럼 둥글게<br>
+• <code>padding: 10px 24px;</code> → 위아래 10px, 좌우 24px 여백<br>
+• <code>font-size: 16px;</code> → 글자 크기<br>
+• <code>cursor: pointer;</code> → 마우스 올리면 손모양`,
+    task: `<strong>과제:</strong> 버튼들의 스타일을 자유롭게 바꿔보세요!<br><br>
+1. 보라색 배경 + 흰 글씨 버튼을 만들어보세요<br>
+2. 분홍색 배경 버튼도 만들어보세요<br>
+3. border-radius 숫자를 0, 5, 20으로 바꿔서 차이를 보세요`,
+    hint: `<code>background-color: #9370db;</code> → 보라색<br>
+<code>color: white;</code> → 흰 글씨<br>
+<code>border-radius: 20px;</code> → 알약 모양<br>
+<code>cursor: pointer;</code> → 마우스 손모양`,
+    starter: `<!DOCTYPE html>
+<html>
+<body style="padding: 30px; background: #f5f0ff;">
+
+  <h2>버튼 디자인 실습</h2>
+  <br>
+
+  <!-- 이 버튼들의 style을 바꿔보세요! -->
+
+  <button style="
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+  ">버튼 1</button>
+
+  &nbsp;
+
+  <button style="
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+  ">버튼 2</button>
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body style="padding: 30px; background: #f5f0ff;">
+
+  <h2>버튼 디자인 실습</h2>
+  <br>
+
+  <button style="
+    background-color: #9370db;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 28px;
+    font-size: 16px;
+    cursor: pointer;
+  ">보라색 버튼</button>
+
+  &nbsp;
+
+  <button style="
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 28px;
+    font-size: 16px;
+    cursor: pointer;
+  ">분홍색 버튼</button>
+
+</body>
+</html>`
+  },
+
+  {
+    step: "레슨 8",
+    title: "⚡ JavaScript — 클릭 이벤트",
+    concept: `<code>onclick=""</code> 속성으로 버튼을 클릭했을 때 동작을 줄 수 있어요.<br><br>
+• <code>onclick="alert('메시지')"</code> → 팝업창 띄우기<br>
+• <code>onclick="document.getElementById('id').style.color='red'"</code><br>
+  → id가 있는 요소의 스타일 바꾸기<br><br>
+<code>id=""</code> 속성은 각 태그에 고유한 이름을 붙이는 거예요.<br>
+나중에 JavaScript에서 그 이름으로 찾아서 조종할 수 있어요.`,
+    task: `<strong>과제 1:</strong> 버튼을 클릭하면 alert로 인사 메시지가 뜨게 해보세요.<br><br>
+<strong>과제 2:</strong> "색 바꾸기" 버튼을 클릭하면 h1 글씨 색이 보라색으로 바뀌게 해보세요.<br><br>
+<strong>힌트:</strong> h1에 id="title"이 이미 있어요.`,
+    hint: `<code>onclick="alert('안녕하세요!')"</code><br><br>
+<code>onclick="document.getElementById('title').style.color='purple'"</code><br><br>
+작은따옴표와 큰따옴표 혼용에 주의하세요!`,
+    starter: `<!DOCTYPE html>
+<html>
+<body style="padding: 30px; text-align: center;">
+
+  <h1 id="title">클릭해서 바꿔보세요!</h1>
+
+  <br>
+
+  <!-- onclick 속성을 추가해보세요 -->
+  <button style="
+    background: #9370db; color: white;
+    border: none; border-radius: 20px;
+    padding: 12px 24px; font-size: 16px;
+    cursor: pointer; margin: 5px;
+  ">인사하기</button>
+
+  <button style="
+    background: #ff69b4; color: white;
+    border: none; border-radius: 20px;
+    padding: 12px 24px; font-size: 16px;
+    cursor: pointer; margin: 5px;
+  ">색 바꾸기</button>
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body style="padding: 30px; text-align: center;">
+
+  <h1 id="title">클릭해서 바꿔보세요!</h1>
+
+  <br>
+
+  <button onclick="alert('안녕하세요! 반갑습니다 😊')"
+    style="
+    background: #9370db; color: white;
+    border: none; border-radius: 20px;
+    padding: 12px 24px; font-size: 16px;
+    cursor: pointer; margin: 5px;
+  ">인사하기</button>
+
+  <button onclick="document.getElementById('title').style.color='purple'"
+    style="
+    background: #ff69b4; color: white;
+    border: none; border-radius: 20px;
+    padding: 12px 24px; font-size: 16px;
+    cursor: pointer; margin: 5px;
+  ">색 바꾸기</button>
+
+</body>
+</html>`
+  },
+
+  {
+    step: "레슨 9",
+    title: "🃏 카드 컴포넌트 만들기",
+    concept: `지금까지 배운 걸 다 합쳐서 <strong style="color:#f5c8a8">카드(Card)</strong>를 만들어봐요!<br><br>
+카드 = div로 만든 박스에 shadow(그림자)를 준 것이에요.<br><br>
+새로운 CSS:<br>
+• <code>box-shadow: 0 4px 12px rgba(0,0,0,0.1);</code> → 그림자<br>
+• <code>width: 300px;</code> → 너비 고정<br>
+• <code>margin: 20px auto;</code> → 가운데 배치<br>
+• <code>display: flex;</code> → 가로로 나열<br>
+• <code>gap: 16px;</code> → 사이 간격`,
+    task: `<strong>과제:</strong> 학생 정보를 담은 카드를 만들어보세요.<br><br>
+오른쪽 기본 카드에서:<br>
+1. 카드 배경색을 <strong>#f5eeff</strong>(연보라)로 바꿔보세요<br>
+2. 이름, 학번, 반을 실제 정보로 바꿔보세요<br>
+3. 카드를 하나 더 복사해서 아래에 붙여넣어보세요`,
+    hint: `카드 div의 <code>background-color: #f5eeff;</code>로 바꾸세요.<br><br>
+카드 전체 코드(div부터 /div까지)를 복사해서<br>바로 아래에 붙여넣으면 카드가 2개가 돼요!`,
+    starter: `<!DOCTYPE html>
+<html>
+<body style="background: #f0ecff; padding: 30px; font-family: sans-serif;">
+
+  <h2 style="text-align:center; color:#6b52a0;">학생 정보 카드</h2>
+
+  <!-- 카드 시작 -->
+  <div style="
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 300px;
+    margin: 16px auto;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  ">
+    <h3 style="color: #7a5faf; margin-bottom: 8px;">홍길동</h3>
+    <p style="color: #666; margin-bottom: 4px;">학번: 10101</p>
+    <p style="color: #666; margin-bottom: 4px;">소속: 1학년 1반</p>
+    <p style="color: #666;">계열: 인문</p>
+  </div>
+  <!-- 카드 끝 -->
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body style="background: #f0ecff; padding: 30px; font-family: sans-serif;">
+
+  <h2 style="text-align:center; color:#6b52a0;">학생 정보 카드</h2>
+
+  <div style="
+    background-color: #f5eeff;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 300px;
+    margin: 16px auto;
+    box-shadow: 0 4px 16px rgba(150,100,200,0.2);
+  ">
+    <h3 style="color: #7a5faf; margin-bottom: 8px;">김민지</h3>
+    <p style="color: #666; margin-bottom: 4px;">학번: 10201</p>
+    <p style="color: #666; margin-bottom: 4px;">소속: 1학년 2반</p>
+    <p style="color: #666;">계열: 이과</p>
+  </div>
+
+  <div style="
+    background-color: #fff0f8;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 300px;
+    margin: 16px auto;
+    box-shadow: 0 4px 16px rgba(200,100,150,0.2);
+  ">
+    <h3 style="color: #c06090; margin-bottom: 8px;">이서연</h3>
+    <p style="color: #666; margin-bottom: 4px;">학번: 10301</p>
+    <p style="color: #666; margin-bottom: 4px;">소속: 1학년 3반</p>
+    <p style="color: #666;">계열: 예술</p>
+  </div>
+
+</body>
+</html>`
+  },
+
+  {
+    step: "자유 실습",
+    title: "🎯 자유 실습 — 마음껏 만들어보세요!",
+    concept: `지금까지 배운 걸 자유롭게 써보세요.<br><br>
+사용할 수 있는 것들:<br>
+• 태그: <code>h1~h6</code>, <code>p</code>, <code>button</code>, <code>div</code>, <code>ul/li</code>, <code>input</code>, <code>hr</code><br>
+• 속성: <code>style</code>, <code>id</code>, <code>onclick</code>, <code>type</code>, <code>placeholder</code><br>
+• CSS: <code>color</code>, <code>background-color</code>, <code>font-size</code>, <code>padding</code>, <code>border-radius</code>, <code>box-shadow</code>, <code>text-align</code><br>
+• JS: <code>alert()</code>, <code>getElementById()</code>`,
+    task: `자유롭게 만들어보세요! 아이디어가 없으면:<br><br>
+💡 <strong>도전 과제:</strong> 간단한 학급 소개 페이지를 만들어보세요.<br>
+- 학급 이름 (h1)<br>
+- 담임 선생님 이름 (p)<br>
+- 학생 명단 (ul, li)<br>
+- 예쁜 배경색 (background-color)<br>
+- 인사 버튼 (onclick alert)`,
+    hint: `막히면 이전 레슨들을 다시 보세요.<br>
+레슨 탭을 클릭하면 이전 예시 코드를 볼 수 있어요!`,
+    starter: `<!DOCTYPE html>
+<html>
+<body style="
+  font-family: sans-serif;
+  background: #fef6ff;
+  padding: 40px;
+  text-align: center;
+">
+
+  <!-- 여기서부터 자유롭게! -->
+
+  <h1 style="color: #9370db;">🌸 우리 반</h1>
+
+</body>
+</html>`,
+    answer: `<!DOCTYPE html>
+<html>
+<body style="
+  font-family: sans-serif;
+  background: #fef6ff;
+  padding: 40px;
+  text-align: center;
+">
+
+  <h1 style="color: #9370db;">🌸 1학년 3반</h1>
+  <p style="color: #888; font-size: 18px;">담임: 김선생님</p>
+
+  <hr style="border: none; border-top: 2px dashed #e0d0f0; margin: 24px auto; width: 300px;">
+
+  <h2 style="color: #c06090;">학생 명단</h2>
+  <ul style="
+    list-style: none;
+    max-width: 200px;
+    margin: 0 auto;
+    padding: 0;
+  ">
+    <li style="padding: 8px; color: #555;">김민지</li>
+    <li style="padding: 8px; color: #555;">이서연</li>
+    <li style="padding: 8px; color: #555;">박지수</li>
+  </ul>
+
+  <br>
+
+  <button onclick="alert('안녕하세요! 1학년 3반입니다 😊')"
+    style="
+    background: #9370db;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 14px 32px;
+    font-size: 16px;
+    cursor: pointer;
+  ">우리 반 인사하기</button>
+
+</body>
+</html>`
+  }
+];
+
+let currentLesson = 0;
+let hintVisible = false;
+
+function loadLesson(n) {
+  currentLesson = n;
+  hintVisible = false;
+  document.getElementById('hintPopup').classList.remove('visible');
+
+  const l = lessons[n];
+  document.getElementById('lessonInfo').innerHTML = `
+    <div class="lesson-step">${l.step}</div>
+    <div class="lesson-title">${l.title}</div>
+    <div class="lesson-concept">${l.concept}</div>
+    <div class="task-box">${l.task}</div>
+  `;
+
+  document.getElementById('codeEditor').value = l.starter;
+  updatePreview();
+  updateLineNumbers();
+  updateStatus();
+
+  document.querySelectorAll('.lesson-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === n);
+  });
+}
+
+function onCodeChange() {
+  updatePreview();
+  updateLineNumbers();
+}
+
+function updatePreview() {
+  const code = document.getElementById('codeEditor').value;
+  document.getElementById('preview').srcdoc = code;
+}
+
+function updateLineNumbers() {
+  const lines = document.getElementById('codeEditor').value.split('\n').length;
+  const nums = Array.from({length: lines}, (_, i) => i + 1).join('\n');
+  document.getElementById('lineNumbers').textContent = nums;
+}
+
+function toggleHint() {
+  const popup = document.getElementById('hintPopup');
+  hintVisible = !hintVisible;
+  if (hintVisible) {
+    popup.innerHTML = '💡 <strong>힌트:</strong> ' + lessons[currentLesson].hint;
+    popup.classList.add('visible');
+  } else {
+    popup.classList.remove('visible');
+  }
+}
+
+function showAnswer() {
+  if (confirm('정답 코드를 보시겠어요? (직접 해보고 나서 확인하는 걸 추천해요!)')) {
+    document.getElementById('codeEditor').value = lessons[currentLesson].answer;
+    updatePreview();
+    updateLineNumbers();
+  }
+}
+
+function resetLesson() {
+  document.getElementById('codeEditor').value = lessons[currentLesson].starter;
+  updatePreview();
+  updateLineNumbers();
+  document.getElementById('hintPopup').classList.remove('visible');
+  hintVisible = false;
+}
+
+function handleTab(e) {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const ta = e.target;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    ta.value = ta.value.substring(0, start) + '  ' + ta.value.substring(end);
+    ta.selectionStart = ta.selectionEnd = start + 2;
+    updatePreview();
+    updateLineNumbers();
+  }
+}
+
+function updateStatus() {
+  document.getElementById('statusLesson').textContent =
+    `레슨 ${currentLesson + 1} / ${lessons.length}`;
+}
+
+// Init practice
+loadLesson(0);
+</script>
+</body>
+</html>
