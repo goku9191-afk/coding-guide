@@ -36,7 +36,7 @@ body { font-family:'Noto Sans KR',sans-serif; background:#faf8ff; color:#3d3560;
   overflow:hidden;
 }
 .section {
-  position:absolute; inset:0;
+  position:absolute; top:0; right:0; bottom:0; left:0;
   display:none !important;
 }
 .section.active {
@@ -378,7 +378,7 @@ body { font-family:'Noto Sans KR',sans-serif; background:#faf8ff; color:#3d3560;
 
   .modal-backdrop {
     position: absolute;
-    inset: 0;
+    top:0; right:0; bottom:0; left:0;
     background: rgba(0,0,0,0.4);
     display: flex;
     align-items: center;
@@ -2964,6 +2964,25 @@ function showSec(s, btn) {
   document.getElementById(map[s]).classList.add('active');
   btn.classList.add('active');
 }
+
+// URL 해시(#radio 등)로 진입하면 해당 탭으로 자동 이동
+(function handleHash() {
+  const hash = window.location.hash;
+  if (!hash) return;
+  const el = document.getElementById(hash.slice(1));
+  if (!el) return;
+  const section = el.closest('.section');
+  if (!section) return;
+  if (!section.classList.contains('active')) {
+    const revMap = {gs:'g', us:'u', ps:'p'};
+    const key = revMap[section.id];
+    if (key) {
+      const btn = document.querySelector('.nav-tab[onclick*="' + "'" + key + "'" + '"]');
+      if (btn) showSec(key, btn);
+    }
+  }
+  setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+})();
 
 // ══ UI GUIDE JS ══
 
