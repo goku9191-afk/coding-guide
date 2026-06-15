@@ -9,7 +9,7 @@
 
 /* ═══ GLOBAL RESET ═══ */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html, body { height:100%; overflow:hidden; }
+html, body { height:100%; }
 body { font-family:'Noto Sans KR',sans-serif; background:#faf8ff; color:#3d3560; }
 
 /* ═══ TOP NAV ═══ */
@@ -2963,6 +2963,13 @@ function showSec(s, btn) {
   const map = {g:'gs', u:'us', p:'ps'};
   document.getElementById(map[s]).classList.add('active');
   btn.classList.add('active');
+  if (s === 'p') {
+    setTimeout(() => {
+      if (typeof loadLesson === 'function') loadLesson(currentLesson);
+      const ta = document.getElementById('codeEditor');
+      if (ta) ta.focus();
+    }, 50);
+  }
 }
 
 // URL 해시(#radio 등)로 진입하면 해당 탭으로 자동 이동
