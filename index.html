@@ -2937,7 +2937,7 @@ dir           <span class="cc"># 파일 목록 (Windows)</span></div></div>
       </div>
     </div>
     <div class="hint-popup" id="hintPopup"></div>
-    <div class="code-editor" onclick="document.getElementById('codeEditor').focus()">
+    <div class="code-editor" onclick="if(event.target.id!=='codeEditor'){var ta=document.getElementById('codeEditor');ta.focus();ta.setSelectionRange(0,0);}">
       <div class="line-numbers" id="lineNumbers">1</div>
       <textarea id="codeEditor" spellcheck="false"></textarea>
     </div>
@@ -2948,7 +2948,7 @@ dir           <span class="cc"># 파일 목록 (Windows)</span></div></div>
       <div style="background:#fff;border-radius:5px;padding:3px 11px;font-size:.72rem;color:#888;flex:1;margin-left:7px;">미리보기 화면</div>
     </div>
     <div class="preview-label">👁️ 결과 화면 — 코드를 수정하면 바로 바뀌어요!</div>
-    <iframe id="preview" tabindex="-1"></iframe>
+    <iframe id="preview" tabindex="-1" sandbox="allow-scripts allow-modals"></iframe>
   </div>
 </div>
 
@@ -2971,7 +2971,12 @@ function showSec(s, btn) {
   document.getElementById(map[s]).classList.add('active');
   btn.classList.add('active');
   if (s === 'p') {
-    requestAnimationFrame(() => document.getElementById('codeEditor').focus());
+    requestAnimationFrame(() => {
+      const ta = document.getElementById('codeEditor');
+      ta.focus();
+      ta.setSelectionRange(0, 0);
+      ta.scrollTop = 0;
+    });
   }
 }
 
@@ -3619,7 +3624,10 @@ function loadLesson(n) {
     <div class="task-box">${l.task}</div>
   `;
 
-  document.getElementById('codeEditor').value = l.starter;
+  const _taEditor = document.getElementById('codeEditor');
+  _taEditor.value = l.starter;
+  _taEditor.setSelectionRange(0, 0);
+  _taEditor.scrollTop = 0;
   updatePreview();
   updateLineNumbers();
   updateStatus();
