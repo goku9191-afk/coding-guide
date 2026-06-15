@@ -925,9 +925,11 @@ body { font-family:'Noto Sans KR',sans-serif; background:#faf8ff; color:#3d3560;
 
 
 /* Practice overrides */
-#ps .main { flex:1; min-height:0; overflow:hidden; display:flex; }
-#ps .left-panel { width:50%; min-height:0; display:flex; flex-direction:column; border-right:2px solid #2d2845; overflow:hidden; }
-#ps .right-panel { width:50%; display:flex; flex-direction:column; overflow:hidden; }
+#ps .main { flex:1; min-height:0; overflow:hidden; display:flex; align-items:stretch; }
+#ps .left-panel { width:50%; height:100%; min-height:0; display:flex; flex-direction:column; border-right:2px solid #2d2845; overflow:hidden; }
+#ps .right-panel { width:50%; height:100%; display:flex; flex-direction:column; overflow:hidden; }
+#ps .code-editor { flex:1 1 0; height:0; min-height:0; display:flex; overflow:hidden; }
+#ps #codeEditor { flex:1; min-height:0; width:100%; height:100%; }
 #ps #preview { flex:1; border:none; background:#fff; }
 
 @keyframes spin { to { transform:rotate(360deg); } }
@@ -2930,7 +2932,7 @@ dir           <span class="cc"># 파일 목록 (Windows)</span></div></div>
       </div>
     </div>
     <div class="hint-popup" id="hintPopup"></div>
-    <div class="code-editor">
+    <div class="code-editor" onclick="document.getElementById('codeEditor').focus()">
       <div class="line-numbers" id="lineNumbers">1</div>
       <textarea id="codeEditor" spellcheck="false" oninput="onCodeChange()" onkeydown="handleTab(event)"></textarea>
     </div>
