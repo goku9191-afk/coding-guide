@@ -2948,7 +2948,7 @@ dir           <span class="cc"># 파일 목록 (Windows)</span></div></div>
       <div style="background:#fff;border-radius:5px;padding:3px 11px;font-size:.72rem;color:#888;flex:1;margin-left:7px;">미리보기 화면</div>
     </div>
     <div class="preview-label">👁️ 결과 화면 — 코드를 수정하면 바로 바뀌어요!</div>
-    <iframe id="preview"></iframe>
+    <iframe id="preview" tabindex="-1"></iframe>
   </div>
 </div>
 
@@ -3633,9 +3633,11 @@ function loadLesson(n) {
   });
 }
 
+let _previewTimer;
 function onCodeChange() {
-  updatePreview();
   updateLineNumbers();
+  clearTimeout(_previewTimer);
+  _previewTimer = setTimeout(updatePreview, 300);
 }
 
 function updatePreview() {
