@@ -2939,7 +2939,7 @@ dir           <span class="cc"># 파일 목록 (Windows)</span></div></div>
     <div class="hint-popup" id="hintPopup"></div>
     <div class="code-editor" onclick="document.getElementById('codeEditor').focus()">
       <div class="line-numbers" id="lineNumbers">1</div>
-      <textarea id="codeEditor" spellcheck="false" oninput="onCodeChange()" onkeydown="handleTab(event)"></textarea>
+      <textarea id="codeEditor" spellcheck="false"></textarea>
     </div>
   </div>
   <div class="right-panel">
@@ -2971,11 +2971,7 @@ function showSec(s, btn) {
   document.getElementById(map[s]).classList.add('active');
   btn.classList.add('active');
   if (s === 'p') {
-    setTimeout(() => {
-      if (typeof loadLesson === 'function') loadLesson(currentLesson);
-      const ta = document.getElementById('codeEditor');
-      if (ta) ta.focus();
-    }, 50);
+    requestAnimationFrame(() => document.getElementById('codeEditor').focus());
   }
 }
 
@@ -3698,6 +3694,19 @@ function updateStatus() {
 
 // Init practice
 loadLesson(0);
+
+// 이벤트 핸들러 - HTML 속성 대신 addEventListener 사용 (Edge 호환성)
+const _ta = document.getElementById('codeEditor');
+_ta.addEventListener('input', onCodeChange);
+_ta.addEventListener('keydown', handleTab);
+
+// iframe load 시 textarea로 포커스 복구
+document.getElementById('preview').addEventListener('load', function() {
+  if (document.getElementById('ps').classList.contains('active') &&
+      document.activeElement !== _ta) {
+    _ta.focus();
+  }
+});
 </script>
 </body>
 </html>
